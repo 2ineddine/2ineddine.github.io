@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.96156afb.css",
+    "main.js": "/static/js/main.b3ccafc4.js",
+    "static/js/453.27c1d304.chunk.js": "/static/js/453.27c1d304.chunk.js",
+    "static/media/mock09.png": "/static/media/mock09.e18677ccfc932e52d754.png",
+    "static/media/mock08.png": "/static/media/mock08.13f46873fdbd382f4b76.png",
+    "static/media/mock04.png": "/static/media/mock04.f7b5679efade992a078c.png",
+    "static/media/bg-light.png": "/static/media/bg-light.bac0efb485244a522981.png",
+    "static/media/me.png": "/static/media/me.eed7fb1c80effef68c6e.png",
+    "static/media/mock07.png": "/static/media/mock07.3f1110f482232b33c6a2.png",
+    "static/media/mock05.png": "/static/media/mock05.4faafa70d200d1519a34.png",
+    "static/media/mock06.png": "/static/media/mock06.ea816617e0d0fa0f63ca.png",
+    "static/media/bg-dark.png": "/static/media/bg-dark.f420c6b8458af72de935.png",
+    "static/media/labor-code.png": "/static/media/labor-code.7dda1497dbbfffb46eeb.png",
+    "static/media/mock01.png": "/static/media/mock01.61bd486a54bf6e17ee5a.png",
+    "static/media/mock02.png": "/static/media/mock02.bced48ae9cdda3acf1a3.png",
+    "static/media/mock03.png": "/static/media/mock03.a4600719e0b5d2a3155b.png",
+    "static/media/sources-separation.jpeg": "/static/media/sources-separation.dd8fe3c9099f5ba2586a.jpeg",
+    "index.html": "/index.html",
+    "main.96156afb.css.map": "/static/css/main.96156afb.css.map",
+    "main.b3ccafc4.js.map": "/static/js/main.b3ccafc4.js.map",
+    "453.27c1d304.chunk.js.map": "/static/js/453.27c1d304.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.96156afb.css",
+    "static/js/main.b3ccafc4.js"
+  ]
+}
