@@ -6,5 +6,6 @@ export { default as Timeline } from "./Timeline";
 export { default as EducationTimeline } from "./EducationTimeline";
 export { default as Languages } from "./Languages";
 export { default as Project } from "./Project";
+export { default as Certifications } from "./Certifications";
 export { default as ProgrammingLanguages } from "./ProgrammingLanguages";
 export { default as Contact } from "./Contact";

@@ -6,6 +6,7 @@ import {
   Languages,
   Expertise,
   Project,
+  Certifications,
   ProgrammingLanguages,
   Contact,
   Navigation,
@@ -39,6 +40,7 @@ function App() {
             <EducationTimeline/>
             <Languages/>
             <Project/>
+            <Certifications/>
             <ProgrammingLanguages/>
             <Contact/>
         </FadeIn>
