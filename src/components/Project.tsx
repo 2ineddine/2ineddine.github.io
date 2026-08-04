@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import laborCode from '../assets/images/labor-code.png';
 import sourceSeparation from '../assets/images/sources-separation.jpeg';
 import txttospeech from '../assets/images/txttospeech.jpg';
+import detection from '../assets/images/detection.jpeg';
 import '../assets/styles/Project.scss';
 
 function Project() {
@@ -10,6 +11,7 @@ function Project() {
     const isFeaturedOpen = activeProject === "labor-code";
     const isSourceSeparationOpen = activeProject === "source-separation";
     const isMatchaOpen = activeProject === "matcha";
+    const isMotionOpen = activeProject === "motion";
 
     return(
     <div className="projects-container" id="projects">
@@ -136,6 +138,47 @@ function Project() {
                             <a
                                 className="project-action"
                                 href="https://github.com/2ineddine/MatchaTTS-Implementation-Analysis"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                GitHub Repository
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article className={`project project-featured ${isMotionOpen ? "is-open" : ""}`}>
+                <div className="project-featured-shell">
+                    <button
+                        type="button"
+                        className="project-image-button"
+                        onClick={() => setActiveProject(isMotionOpen ? null : "motion")}
+                        aria-expanded={isMotionOpen}
+                        aria-controls="motion-details"
+                    >
+                        <img
+                            src={detection}
+                            className="zoom project-featured-image"
+                            alt="Motion Detection Estimation and Tracking on Images preview"
+                            width="100%"
+                        />
+                        <span className="project-image-hint">
+                            click to show more details
+                        </span>
+                    </button>
+
+                    <h2 className="project-featured-title">
+                        Motion Detection, Estimation and Tracking on Images
+                    </h2>
+                    <div className="project-details" id="motion-details">
+                        <p>
+                            MATLAB-based computer vision toolkit for motion analysis in image sequences. The project implements motion detection, optical flow estimation, and object tracking using methods such as background modeling, block matching, Lucas-Kanade, Horn-Schunck, Particle Filters, and Kalman tracking, with tools for visualization and performance evaluation.
+                        </p>
+                        <div className="project-actions">
+                            <a
+                                className="project-action"
+                                href="https://github.com/2ineddine/Motion-Detection-Estimation-and-Tracking-on-Images"
                                 target="_blank"
                                 rel="noreferrer"
                             >
