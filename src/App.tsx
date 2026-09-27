@@ -41,11 +41,11 @@ function App() {
         />
         <FadeIn transitionDuration={700}>
             <Main language={language} />
+            <Project language={language} />
             <Expertise language={language} />
             <Timeline language={language} />
             <EducationTimeline language={language} />
             <Languages language={language} />
-            <Project language={language} />
             <Certifications language={language} />
             <ProgrammingLanguages language={language} />
             <Contact language={language} />

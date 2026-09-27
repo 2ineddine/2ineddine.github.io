@@ -5,10 +5,57 @@
 }
 
 .contact-form {
+  width: 100%;
   padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .MuiFormControl-root {
+    width: 100%;
+  }
+
+  .MuiInputBase-root {
+    border-radius: 14px;
+    background: rgba(15, 23, 42, 0.44);
+    color: #f8fafc;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+
+  .MuiOutlinedInput-notchedOutline {
+    border-width: 1.5px;
+    border-color: rgba(148, 163, 184, 0.45);
+  }
+
+  .Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #5000ca;
+    box-shadow: 0 0 0 3px rgba(80, 0, 202, 0.18);
+  }
+
+  .MuiFormLabel-root {
+    color: #e5e7eb;
+    font-size: 1.2rem;
+    font-family: 'DomaineDispNar-Medium', sans-serif;
+  }
+
+  .MuiFormLabel-root.Mui-focused {
+    color: #d9c8ff;
+  }
+
+  .MuiInputBase-input,
+  .MuiInputBase-inputMultiline {
+    color: inherit;
+    background: transparent;
+  }
+
+  .MuiInputBase-input::placeholder,
+  .MuiInputBase-inputMultiline::placeholder {
+    color: rgba(248, 250, 252, 0.72);
+    opacity: 1;
+  }
 
   button {
-    float: right;
+    align-self: flex-end;
     background-color: white;
     color: #050f0b;
   }
@@ -17,9 +64,55 @@
     background-color: #5000ca;
     color: white;
   }
+}
 
-  fieldset {
-    background-color: white;
+.dark-mode .contact-form {
+  .MuiInputBase-root {
+    background: rgba(15, 23, 42, 0.72);
+    color: #f8fafc;
+  }
+
+  .MuiFormLabel-root {
+    color: #e5e7eb;
+  }
+
+  .MuiInputBase-input,
+  .MuiInputBase-inputMultiline {
+    color: #f8fafc;
+  }
+
+  .MuiInputBase-input::placeholder,
+  .MuiInputBase-inputMultiline::placeholder {
+    color: rgba(248, 250, 252, 0.7);
+  }
+}
+
+.light-mode .contact-form {
+  .MuiInputBase-root {
+    background: rgba(255, 255, 255, 0.9);
+    color: #0d1116;
+  }
+
+  .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(15, 23, 42, 0.2);
+  }
+
+  .MuiFormLabel-root {
+    color: #0d1116;
+  }
+
+  .MuiFormLabel-root.Mui-focused {
+    color: #5000ca;
+  }
+
+  .MuiInputBase-input,
+  .MuiInputBase-inputMultiline {
+    color: #0d1116;
+  }
+
+  .MuiInputBase-input::placeholder,
+  .MuiInputBase-inputMultiline::placeholder {
+    color: rgba(13, 17, 22, 0.58);
   }
 }
 
@@ -31,7 +124,7 @@ label {
 .form-flex {
   display: flex;
   gap: 15px;
-  padding-bottom: 15px;
+  padding-bottom: 0;
 }
 
 .form-flex .MuiFormControl-root {

@@ -44,23 +44,25 @@ function Main({ language = 'en' }: { language?: 'en' | 'fr' }) {
   return (
     <div className="container" id="home">
       <div className="about-section">
-        <div className="image-wrapper">
-          <img src={require("../assets/images/me.png")} alt="Avatar" />
-        </div>
-        <div className="content">
+        <div className="content hero-copy">
+          <h1>Zineddine Bouhadjira</h1>
+          <p className="role">{title}</p>
+
           <div className="social_icons">
             <a href="https://github.com/2ineddine" target="_blank" rel="noreferrer"><GitHubIcon/></a>
             <a href="https://fr.linkedin.com/in/zineddine-bouhadjira" target="_blank" rel="noreferrer"><LinkedInIcon/></a>
             <a href="mailto:zed.bouhadjira@gmail.com" target="_blank" rel="noreferrer"><EmailIcon/></a>
           </div>
-          <h1>Zineddine Bouhadjira</h1>
-          <p>{title}</p>
 
           <div className="mobile_social_icons">
             <a href="https://github.com/2ineddine" target="_blank" rel="noreferrer"><GitHubIcon/></a>
             <a href="https://fr.linkedin.com/in/zineddine-bouhadjira" target="_blank" rel="noreferrer"><LinkedInIcon/></a>
             <a href="mailto:zed.bouhadjira@gmail.com" target="_blank" rel="noreferrer"><EmailIcon/></a>
           </div>
+        </div>
+
+        <div className="image-wrapper">
+          <img src={require("../assets/images/me.png")} alt="Zineddine Bouhadjira" />
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import emailjs from '@emailjs/browser';
 import '../assets/styles/Contact.scss';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -21,7 +22,8 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
     nameError: 'Veuillez saisir votre nom',
     emailError: 'Veuillez saisir votre email ou votre numéro',
     messageError: 'Veuillez saisir votre message',
-    subject: 'Nouveau message depuis le portfolio',
+    success: 'Message envoyé avec succès.',
+    failure: 'Le service d\'email n\'est pas configuré. Ajoutez les identifiants EmailJS dans votre fichier .env.',
   } : {
     title: 'Contact Me',
     description: 'Got a project waiting to be realized? Let\'s collaborate and make it happen!',
@@ -35,7 +37,8 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
     nameError: 'Please enter your name',
     emailError: 'Please enter your email or phone number',
     messageError: 'Please enter the message',
-    subject: 'New message from the portfolio',
+    success: 'Message sent successfully.',
+    failure: 'The email service is not configured. Add the EmailJS credentials to your .env file.',
   };
 
   const [name, setName] = useState<string>('');
@@ -45,6 +48,7 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
   const [nameError, setNameError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
   const [messageError, setMessageError] = useState<boolean>(false);
+  const [status, setStatus] = useState<string>('');
 
   const form = useRef<any>(null);
 
@@ -63,18 +67,40 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
       return;
     }
 
-    const subject = encodeURIComponent(copy.subject);
-    const body = encodeURIComponent(
-      `${isFrench ? 'Nom' : 'Name'}: ${trimmedName}\n${isFrench ? 'Email / Téléphone' : 'Email / Phone'}: ${trimmedEmail}\n\n${isFrench ? 'Message' : 'Message'}:\n${trimmedMessage}`
-    );
+    const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+    const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 
-    window.location.href = `mailto:zed.bouhadjira@gmail.com?subject=${subject}&body=${body}`;
-    setName('');
-    setEmail('');
-    setMessage('');
-    setNameError(false);
-    setEmailError(false);
-    setMessageError(false);
+    if (!serviceId || !templateId || !publicKey) {
+      setStatus(copy.failure);
+      return;
+    }
+
+    emailjs
+      .send(
+        serviceId,
+        templateId,
+        {
+          from_name: trimmedName,
+          reply_to: trimmedEmail,
+          message: trimmedMessage,
+          email: trimmedEmail,
+          recipient_email: 'zed.bouhadjira@gmail.com',
+        },
+        publicKey,
+      )
+      .then(() => {
+        setStatus(copy.success);
+        setName('');
+        setEmail('');
+        setMessage('');
+        setNameError(false);
+        setEmailError(false);
+        setMessageError(false);
+      })
+      .catch(() => {
+        setStatus(copy.failure);
+      });
   };
 
   return (
@@ -89,6 +115,7 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
             noValidate
             autoComplete="off"
             className='contact-form'
+            onSubmit={sendEmail}
           >
             <div className='form-flex'>
               <TextField
@@ -131,9 +158,10 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
               error={messageError}
               helperText={messageError ? copy.messageError : ""}
             />
-            <Button variant="contained" endIcon={<SendIcon />} onClick={sendEmail}>
+            <Button type="submit" variant="contained" endIcon={<SendIcon />}>
               {copy.send}
             </Button>
+            {status ? <p style={{ marginTop: '12px', color: status.includes('success') ? '#3ad77b' : '#ffb4b4' }}>{status}</p> : null}
           </Box>
         </div>
       </div>

@@ -22,6 +22,104 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
     <div className="projects-container" id="projects">
         <h1>{isFrench ? 'Projets personnels' : 'Personal Projects'}</h1>
         <div className="projects-grid">
+            <article className={`project project-featured ${isMotionOpen ? "is-open" : ""}`}>
+                <div className="project-featured-shell">
+                    <button
+                        type="button"
+                        className="project-image-button"
+                        onClick={() => setActiveProject(isMotionOpen ? null : "motion")}
+                        aria-expanded={isMotionOpen}
+                        aria-controls="motion-details"
+                    >
+                        <img
+                            src={detection}
+                            className="zoom project-featured-image"
+                            alt="Motion Detection Estimation and Tracking on Images preview"
+                            width="100%"
+                        />
+                        <span className="project-image-hint">
+                            click to show more details
+                        </span>
+                    </button>
+
+                    <button
+                        type="button"
+                        className="project-featured-title-button"
+                        onClick={() => setActiveProject(isMotionOpen ? null : "motion")}
+                        aria-expanded={isMotionOpen}
+                        aria-controls="motion-details"
+                    >
+                        <h2 className="project-featured-title">
+                            Motion Detection, Estimation and Tracking on Images
+                        </h2>
+                    </button>
+                    <div className="project-details" id="motion-details">
+                        <p>
+                            MATLAB-based computer vision toolkit for motion analysis in image sequences. The project implements motion detection, optical flow estimation, and object tracking using methods such as background modeling, block matching, Lucas-Kanade, Horn-Schunck, Particle Filters, and Kalman tracking, with tools for visualization and performance evaluation.
+                        </p>
+                        <div className="project-actions">
+                            <a
+                                className="project-action"
+                                href="https://github.com/2ineddine/Motion-Detection-Estimation-and-Tracking-on-Images"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                GitHub Repository
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article className={`project project-featured ${isYolo26Open ? "is-open" : ""}`}>
+                <div className="project-featured-shell">
+                    <button
+                        type="button"
+                        className="project-image-button"
+                        onClick={() => setActiveProject(isYolo26Open ? null : "yolo26")}
+                        aria-expanded={isYolo26Open}
+                        aria-controls="yolo26-details"
+                    >
+                        <img
+                            src={yolo26}
+                            className="zoom project-featured-image"
+                            alt="YOLO26 pothole and crack detection preview"
+                            width="100%"
+                        />
+                        <span className="project-image-hint">
+                            click to show more details
+                        </span>
+                    </button>
+
+                    <button
+                        type="button"
+                        className="project-featured-title-button"
+                        onClick={() => setActiveProject(isYolo26Open ? null : "yolo26")}
+                        aria-expanded={isYolo26Open}
+                        aria-controls="yolo26-details"
+                    >
+                        <h2 className="project-featured-title">
+                            YOLO26 – Pothole and Crack Detection on Roads
+                        </h2>
+                    </button>
+                    <div className="project-details" id="yolo26-details">
+                        <p>
+                            Fine-tuned YOLO26n for road anomaly detection on an ~80,000-image multi-source dataset, designing the full data cleaning, merging, and augmentation pipeline, and reaching 72.1% mAP@0.5.
+                        </p>
+                        <div className="project-actions">
+                            <a
+                                className="project-action"
+                                href="https://github.com/2ineddine/RoadAnomalyDetection"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                GitHub Repository
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
             <article className={`project project-featured ${isFeaturedOpen ? "is-open" : ""}`}>
                 <div className="project-featured-shell">
                     <button
@@ -167,104 +265,6 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                             <a
                                 className="project-action"
                                 href="https://github.com/2ineddine/MatchaTTS-Implementation-Analysis"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                GitHub Repository
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <article className={`project project-featured ${isMotionOpen ? "is-open" : ""}`}>
-                <div className="project-featured-shell">
-                    <button
-                        type="button"
-                        className="project-image-button"
-                        onClick={() => setActiveProject(isMotionOpen ? null : "motion")}
-                        aria-expanded={isMotionOpen}
-                        aria-controls="motion-details"
-                    >
-                        <img
-                            src={detection}
-                            className="zoom project-featured-image"
-                            alt="Motion Detection Estimation and Tracking on Images preview"
-                            width="100%"
-                        />
-                        <span className="project-image-hint">
-                            click to show more details
-                        </span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="project-featured-title-button"
-                        onClick={() => setActiveProject(isMotionOpen ? null : "motion")}
-                        aria-expanded={isMotionOpen}
-                        aria-controls="motion-details"
-                    >
-                        <h2 className="project-featured-title">
-                            Motion Detection, Estimation and Tracking on Images
-                        </h2>
-                    </button>
-                    <div className="project-details" id="motion-details">
-                        <p>
-                            MATLAB-based computer vision toolkit for motion analysis in image sequences. The project implements motion detection, optical flow estimation, and object tracking using methods such as background modeling, block matching, Lucas-Kanade, Horn-Schunck, Particle Filters, and Kalman tracking, with tools for visualization and performance evaluation.
-                        </p>
-                        <div className="project-actions">
-                            <a
-                                className="project-action"
-                                href="https://github.com/2ineddine/Motion-Detection-Estimation-and-Tracking-on-Images"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                GitHub Repository
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <article className={`project project-featured ${isYolo26Open ? "is-open" : ""}`}>
-                <div className="project-featured-shell">
-                    <button
-                        type="button"
-                        className="project-image-button"
-                        onClick={() => setActiveProject(isYolo26Open ? null : "yolo26")}
-                        aria-expanded={isYolo26Open}
-                        aria-controls="yolo26-details"
-                    >
-                        <img
-                            src={yolo26}
-                            className="zoom project-featured-image"
-                            alt="YOLO26 pothole and crack detection preview"
-                            width="100%"
-                        />
-                        <span className="project-image-hint">
-                            click to show more details
-                        </span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="project-featured-title-button"
-                        onClick={() => setActiveProject(isYolo26Open ? null : "yolo26")}
-                        aria-expanded={isYolo26Open}
-                        aria-controls="yolo26-details"
-                    >
-                        <h2 className="project-featured-title">
-                            YOLO26 – Pothole and Crack Detection on Roads
-                        </h2>
-                    </button>
-                    <div className="project-details" id="yolo26-details">
-                        <p>
-                            Fine-tuned YOLO26n for road anomaly detection on an ~80,000-image multi-source dataset, designing the full data cleaning, merging, and augmentation pipeline, and reaching 72.1% mAP@0.5.
-                        </p>
-                        <div className="project-actions">
-                            <a
-                                className="project-action"
-                                href="https://github.com/2ineddine/RoadAnomalyDetection"
                                 target="_blank"
                                 rel="noreferrer"
                             >

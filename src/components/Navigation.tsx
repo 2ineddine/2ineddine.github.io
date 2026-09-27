@@ -20,22 +20,22 @@ function Navigation({ parentToChild, modeChange, language = 'en', onLanguageChan
   const navItems = language === 'fr'
     ? [
         ['Accueil', 'home'],
+        ['Projets', 'projects'],
         ['Expertises', 'expertise'],
         ['Historique', 'history'],
         ['Formation', 'education'],
         ['Langues', 'languages'],
-        ['Projets', 'projects'],
         ['Certifications', 'certifications'],
         ['Langages', 'programming-languages'],
         ['Contact', 'contact'],
       ]
     : [
         ['Home', 'home'],
+        ['Projects', 'projects'],
         ['Expertise', 'expertise'],
         ['History', 'history'],
         ['Education', 'education'],
         ['Languages', 'languages'],
-        ['Projects', 'projects'],
         ['Certifications', 'certifications'],
         ['Programming', 'programming-languages'],
         ['Contact', 'contact'],
