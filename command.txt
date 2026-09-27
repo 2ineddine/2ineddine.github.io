@@ -1,2 +1,12 @@
 npm run build
 npx serve -s build
+
+
+
+to deploy : 
+
+npm run build
+cp -r build/* .
+git add .
+git commit -m "your update message"
+git push origin main

@@ -1,5 +1,4 @@
-import React, { useRef, useState } from 'react';
-import emailjs from '@emailjs/browser';
+import React, { useState } from 'react';
 import '../assets/styles/Contact.scss';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -50,11 +49,7 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
   const [messageError, setMessageError] = useState<boolean>(false);
   const [status, setStatus] = useState<string>('');
 
-  const form = useRef<any>(null);
-
-  const sendEmail = (e: any) => {
-    e.preventDefault();
-
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const trimmedName = name.trim();
     const trimmedEmail = email.trim();
     const trimmedMessage = message.trim();
@@ -64,43 +59,11 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
     setMessageError(trimmedMessage === '');
 
     if (trimmedName === '' || trimmedEmail === '' || trimmedMessage === '') {
+      e.preventDefault();
       return;
     }
 
-    const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
-    const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
-    const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
-
-    if (!serviceId || !templateId || !publicKey) {
-      setStatus(copy.failure);
-      return;
-    }
-
-    emailjs
-      .send(
-        serviceId,
-        templateId,
-        {
-          from_name: trimmedName,
-          reply_to: trimmedEmail,
-          message: trimmedMessage,
-          email: trimmedEmail,
-          recipient_email: 'zed.bouhadjira@gmail.com',
-        },
-        publicKey,
-      )
-      .then(() => {
-        setStatus(copy.success);
-        setName('');
-        setEmail('');
-        setMessage('');
-        setNameError(false);
-        setEmailError(false);
-        setMessageError(false);
-      })
-      .catch(() => {
-        setStatus(copy.failure);
-      });
+    setStatus(copy.success);
   };
 
   return (
@@ -110,16 +73,22 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
           <h1>{copy.title}</h1>
           <p>{copy.description}</p>
           <Box
-            ref={form}
             component="form"
+            action="https://formsubmit.co/zed.bouhadjira@gmail.com"
+            method="POST"
             noValidate
             autoComplete="off"
             className='contact-form'
-            onSubmit={sendEmail}
+            onSubmit={handleSubmit}
           >
+            <input type="hidden" name="_subject" value="New message from portfolio" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+
             <div className='form-flex'>
               <TextField
                 required
+                name="name"
                 id="outlined-required"
                 label={copy.name}
                 placeholder={copy.namePlaceholder}
@@ -132,6 +101,7 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
               />
               <TextField
                 required
+                name="email"
                 id="outlined-required"
                 label={copy.email}
                 placeholder={copy.emailPlaceholder}
@@ -145,6 +115,7 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
             </div>
             <TextField
               required
+              name="message"
               id="outlined-multiline-static"
               label={copy.message}
               placeholder={copy.messagePlaceholder}
@@ -161,7 +132,7 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
             <Button type="submit" variant="contained" endIcon={<SendIcon />}>
               {copy.send}
             </Button>
-            {status ? <p style={{ marginTop: '12px', color: status.includes('success') ? '#3ad77b' : '#ffb4b4' }}>{status}</p> : null}
+            {status ? <p style={{ marginTop: '12px', color: '#3ad77b' }}>{status}</p> : null}
           </Box>
         </div>
       </div>
