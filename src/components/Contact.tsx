@@ -21,7 +21,7 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
     nameError: 'Veuillez saisir votre nom',
     emailError: 'Veuillez saisir votre email ou votre numéro',
     messageError: 'Veuillez saisir votre message',
-    success: 'Message envoyé avec succès.',
+    success: 'Votre message a été envoyé.',
     failure: 'Le service d\'email n\'est pas configuré. Ajoutez les identifiants EmailJS dans votre fichier .env.',
   } : {
     title: 'Contact Me',
@@ -36,7 +36,7 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
     nameError: 'Please enter your name',
     emailError: 'Please enter your email or phone number',
     messageError: 'Please enter the message',
-    success: 'Message sent successfully.',
+    success: 'Your message has been sent.',
     failure: 'The email service is not configured. Add the EmailJS credentials to your .env file.',
   };
 
@@ -49,7 +49,9 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
   const [messageError, setMessageError] = useState<boolean>(false);
   const [status, setStatus] = useState<string>('');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     const trimmedName = name.trim();
     const trimmedEmail = email.trim();
     const trimmedMessage = message.trim();
@@ -59,11 +61,40 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
     setMessageError(trimmedMessage === '');
 
     if (trimmedName === '' || trimmedEmail === '' || trimmedMessage === '') {
-      e.preventDefault();
       return;
     }
 
-    setStatus(copy.success);
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/zed.bouhadjira@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: trimmedName,
+          email: trimmedEmail,
+          message: trimmedMessage,
+          _subject: 'New message from portfolio',
+          _captcha: 'false',
+          _template: 'table',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('FormSubmit request failed');
+      }
+
+      setStatus(copy.success);
+      setName('');
+      setEmail('');
+      setMessage('');
+      setNameError(false);
+      setEmailError(false);
+      setMessageError(false);
+    } catch (error) {
+      setStatus(copy.failure);
+    }
   };
 
   return (
@@ -74,17 +105,11 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
           <p>{copy.description}</p>
           <Box
             component="form"
-            action="https://formsubmit.co/zed.bouhadjira@gmail.com"
-            method="POST"
             noValidate
             autoComplete="off"
             className='contact-form'
             onSubmit={handleSubmit}
           >
-            <input type="hidden" name="_subject" value="New message from portfolio" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_template" value="table" />
-
             <div className='form-flex'>
               <TextField
                 required
