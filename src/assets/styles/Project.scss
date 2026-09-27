@@ -82,8 +82,25 @@
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.project-featured-title {
+.project-featured-title-button {
+  width: 100%;
   margin: 0.75rem 0 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: white;
+}
+
+.project-featured-title-button:focus-visible {
+  outline: 2px solid #5000ca;
+  outline-offset: 6px;
+  border-radius: 10px;
+}
+
+.project-featured-title {
+  margin: 0;
   color: white;
   font-family: var(--font-heading);
   font-size: clamp(1.15rem, 1.7vw, 1.45rem);

@@ -76,13 +76,14 @@ const certifications = [
   verificationUrl: `${CERTIFICATE_BASE_URL}${certificate.credentialId}`,
 }));
 
-function Certifications() {
+function Certifications({ language = 'en' }: { language?: 'en' | 'fr' }) {
+  const isFrench = language === 'fr';
+
   return (
     <section className="certifications-section" id="certifications">
       <div className="certifications-header">
         <div>
-          <p className="section-eyebrow">Certifications</p>
-          {/* Description intentionally removed for a cleaner, focused section */}
+          <p className="section-eyebrow">{isFrench ? 'Certifications' : 'Certifications'}</p>
         </div>
       </div>
 
@@ -105,7 +106,7 @@ function Certifications() {
             <h2>{certificate.title}</h2>
             <div className="certification-footer">
               <div className="certification-details">
-                <span className="certification-label">Credential ID</span>
+                <span className="certification-label">{isFrench ? 'Identifiant' : 'Credential ID'}</span>
                 <span className="certification-value">{certificate.credentialId}</span>
               </div>
               <a
@@ -114,7 +115,7 @@ function Certifications() {
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                Verify Certificate
+                {isFrench ? 'Vérifier la certification' : 'Verify Certificate'}
               </a>
             </div>
           </article>

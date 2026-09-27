@@ -6,11 +6,13 @@ import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeli
 import 'react-vertical-timeline-component/style.min.css';
 import '../assets/styles/Timeline.scss';
 
-function EducationTimeline() {
+function EducationTimeline({ language = 'en' }: { language?: 'en' | 'fr' }) {
+  const isFrench = language === 'fr';
+
   return (
     <div id="education">
       <div className="items-container">
-        <h1>Education</h1>
+        <h1>{isFrench ? 'Formation' : 'Education'}</h1>
 
         <VerticalTimeline>
 
@@ -26,7 +28,7 @@ function EducationTimeline() {
             icon={<FontAwesomeIcon icon={faGraduationCap} />}
           >
             <h3 className="vertical-timeline-element-title">
-              Master’s – Intelligent Systems Engineering
+              {isFrench ? 'Master – Ingénierie des systèmes intelligents' : 'Master’s – Intelligent Systems Engineering'}
             </h3>
             <h4 className="vertical-timeline-element-subtitle">
               Sorbonne University
@@ -49,7 +51,7 @@ function EducationTimeline() {
             icon={<FontAwesomeIcon icon={faGraduationCap} />}
           >
             <h3 className="vertical-timeline-element-title">
-              Bachelor’s – Electronics, Electrical Energy and Automation
+              {isFrench ? 'Licence – Électronique, énergie électrique et automatisation' : 'Bachelor’s – Electronics, Electrical Energy and Automation'}
             </h3>
             <h4 className="vertical-timeline-element-subtitle">
               Claude Bernard Lyon 1 University

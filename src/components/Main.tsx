@@ -38,10 +38,11 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
 import '../assets/styles/Main.scss';
 
-function Main() {
+function Main({ language = 'en' }: { language?: 'en' | 'fr' }) {
+  const title = language === 'fr' ? 'Data Scientist | Ingénieur IA' : 'Data Scientist | AI Engineer';
 
   return (
-    <div className="container">
+    <div className="container" id="home">
       <div className="about-section">
         <div className="image-wrapper">
           <img src={require("../assets/images/me.png")} alt="Avatar" />
@@ -53,7 +54,7 @@ function Main() {
             <a href="mailto:zed.bouhadjira@gmail.com" target="_blank" rel="noreferrer"><EmailIcon/></a>
           </div>
           <h1>Zineddine Bouhadjira</h1>
-          <p>Data Scientist | MLOps Engineer</p>
+          <p>{title}</p>
 
           <div className="mobile_social_icons">
             <a href="https://github.com/2ineddine" target="_blank" rel="noreferrer"><GitHubIcon/></a>

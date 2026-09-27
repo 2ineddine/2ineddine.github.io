@@ -15,11 +15,31 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 
 const drawerWidth = 240;
-const navItems = [['Expertise', 'expertise'], ['History', 'history'], ['Projects', 'projects'], ['Contact', 'contact']];
 
-function Navigation({parentToChild, modeChange}: any) {
-
-  // REMOVED: const {mode} = parentToChild;
+function Navigation({ parentToChild, modeChange, language = 'en', onLanguageChange }: any) {
+  const navItems = language === 'fr'
+    ? [
+        ['Accueil', 'home'],
+        ['Expertises', 'expertise'],
+        ['Historique', 'history'],
+        ['Formation', 'education'],
+        ['Langues', 'languages'],
+        ['Projets', 'projects'],
+        ['Certifications', 'certifications'],
+        ['Langages', 'programming-languages'],
+        ['Contact', 'contact'],
+      ]
+    : [
+        ['Home', 'home'],
+        ['Expertise', 'expertise'],
+        ['History', 'history'],
+        ['Education', 'education'],
+        ['Languages', 'languages'],
+        ['Projects', 'projects'],
+        ['Certifications', 'certifications'],
+        ['Programming', 'programming-languages'],
+        ['Contact', 'contact'],
+      ];
 
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const [scrolled, setScrolled] = useState<boolean>(false);
@@ -45,13 +65,9 @@ function Navigation({parentToChild, modeChange}: any) {
   }, []);
 
   const scrollToSection = (section: string) => {
-    console.log(section)
-    const expertiseElement = document.getElementById(section);
-    if (expertiseElement) {
-      expertiseElement.scrollIntoView({ behavior: 'smooth' });
-      console.log('Scrolling to:', expertiseElement);
-    } else {
-      console.error('Element with id "expertise" not found');
+    const sectionElement = document.getElementById(section);
+    if (sectionElement) {
+      sectionElement.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -85,14 +101,19 @@ function Navigation({parentToChild, modeChange}: any) {
           >
             <MenuIcon />
           </IconButton>
-          {/* Theme toggle removed from here */}
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+          <Box sx={{ display: { xs: 'none', sm: 'block' }, flexGrow: 1 }}>
             {navItems.map((item) => (
               <Button key={item[0]} onClick={() => scrollToSection(item[1])} sx={{ color: '#fff' }}>
                 {item[0]}
               </Button>
             ))}
           </Box>
+          <Button
+            onClick={() => onLanguageChange?.(language === 'en' ? 'fr' : 'en')}
+            sx={{ color: '#fff', minWidth: 'auto', border: '1px solid rgba(255,255,255,0.25)', borderRadius: '999px' }}
+          >
+            {language === 'en' ? 'FR' : 'EN'}
+          </Button>
         </Toolbar>
       </AppBar>
       <nav>

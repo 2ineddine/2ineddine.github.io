@@ -17,6 +17,7 @@ import './index.scss';
 
 function App() {
     const [mode, setMode] = useState<string>('dark');
+    const [language, setLanguage] = useState<'en' | 'fr'>('en');
 
     const handleModeChange = () => {
         if (mode === 'dark') {
@@ -32,17 +33,22 @@ function App() {
 
     return (
     <div className={`main-container ${mode === 'dark' ? 'dark-mode' : 'light-mode'}`}>
-        <Navigation parentToChild={{mode}} modeChange={handleModeChange}/>
+        <Navigation
+          parentToChild={{mode}}
+          modeChange={handleModeChange}
+          language={language}
+          onLanguageChange={setLanguage}
+        />
         <FadeIn transitionDuration={700}>
-            <Main/>
-            <Expertise/>
-            <Timeline/>
-            <EducationTimeline/>
-            <Languages/>
-            <Project/>
-            <Certifications/>
-            <ProgrammingLanguages/>
-            <Contact/>
+            <Main language={language} />
+            <Expertise language={language} />
+            <Timeline language={language} />
+            <EducationTimeline language={language} />
+            <Languages language={language} />
+            <Project language={language} />
+            <Certifications language={language} />
+            <ProgrammingLanguages language={language} />
+            <Contact language={language} />
         </FadeIn>
         <Footer />
         

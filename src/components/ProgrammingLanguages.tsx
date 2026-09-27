@@ -35,10 +35,10 @@ const languages: Language[] = [
   { name: "Bash", accent: "bash", icon: SiGnubash({}) },
 ];
 
-function ProgrammingLanguages() {
+function ProgrammingLanguages({ language = 'en' }: { language?: 'en' | 'fr' }) {
   return (
     <section className="programming-languages" id="programming-languages">
-      <h1>Programming Languages</h1>
+      <h1>{language === 'fr' ? 'Langages de programmation' : 'Programming Languages'}</h1>
       <div className="programming-languages-grid">
         {languages.map(({ name, accent, icon }) => (
           <article className={`programming-language-card ${accent}`} key={name}>
