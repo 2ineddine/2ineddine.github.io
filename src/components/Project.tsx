@@ -5,6 +5,7 @@ import txttospeech from '../assets/images/txttospeech.jpg';
 import detection from '../assets/images/detection.jpeg';
 import yolo26 from '../assets/images/yolo26.jpg';
 import jungle from '../assets/images/jungle.jpeg';
+import nvidia from '../assets/images/nvidia.jpeg';
 import '../assets/styles/Project.scss';
 
 function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
@@ -17,11 +18,63 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
     const isMotionOpen = activeProject === "motion";
     const isYolo26Open = activeProject === "yolo26";
     const isJungleOpen = activeProject === "jungle";
+    const isNvidiaOpen = activeProject === "nvidia";
 
     return(
     <div className="projects-container" id="projects">
         <h1>{isFrench ? 'Projets personnels' : 'Personal Projects'}</h1>
         <div className="projects-grid">
+            <article className={`project project-featured ${isNvidiaOpen ? "is-open" : ""}`}>
+                <div className="project-featured-shell">
+                    <button
+                        type="button"
+                        className="project-image-button"
+                        onClick={() => setActiveProject(isNvidiaOpen ? null : "nvidia")}
+                        aria-expanded={isNvidiaOpen}
+                        aria-controls="nvidia-details"
+                    >
+                        <img
+                            src={nvidia}
+                            className="zoom project-featured-image"
+                            alt="NVIDIA Nemotron fine-tuning project preview"
+                            width="100%"
+                        />
+                        <span className="project-image-hint">
+                            {isFrench ? 'cliquer pour afficher les détails' : 'click to show more details'}
+                        </span>
+                    </button>
+
+                    <button
+                        type="button"
+                        className="project-featured-title-button"
+                        onClick={() => setActiveProject(isNvidiaOpen ? null : "nvidia")}
+                        aria-expanded={isNvidiaOpen}
+                        aria-controls="nvidia-details"
+                    >
+                        <h2 className="project-featured-title">
+                            NVIDIA Nemotron Fine-tuning – Kaggle Competition
+                        </h2>
+                    </button>
+                    <div className="project-details" id="nvidia-details">
+                        <p>
+                            {isFrench
+                                ? 'Fine-tuning du modèle de langage NVIDIA Nemotron-3-Nano-30B à l’aide d’adaptateurs LoRA dans le cadre d’une compétition Kaggle réunissant plus de 17 000 participants. Le projet comprend un pipeline d’entraînement avec masquage des prompts et formatage structuré des réponses, une optimisation de l’entraînement avec la précision bf16, le gradient checkpointing et un scheduler cosinus, ainsi que le déploiement du modèle avec vLLM, permettant de réduire la perte de validation de 0,46 à 0,19.'
+                                : 'Fine-tuning of NVIDIA’s Nemotron-3-Nano-30B language model using LoRA adapters for a Kaggle competition with over 17,000 participants. The project includes a training pipeline with prompt masking and structured response formatting, optimized training using bf16 precision, gradient checkpointing, and cosine learning rate scheduling, and model serving with vLLM, reducing validation loss from 0.46 to 0.19.'}
+                        </p>
+                        <div className="project-actions">
+                            <a
+                                className="project-action"
+                                href="https://github.com/2ineddine/NVIDIA-Nemotron-Model-Reasoning-Challenge"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                {isFrench ? 'Dépôt GitHub' : 'GitHub Repository'}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
             <article className={`project project-featured ${isMotionOpen ? "is-open" : ""}`}>
                 <div className="project-featured-shell">
                     <button

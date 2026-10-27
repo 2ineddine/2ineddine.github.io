@@ -4,34 +4,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
 import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
+import orangeLogo from '../assets/images/orange.png';
+import sorbonneLogo from '../assets/images/sorbonne.png';
 import '../assets/styles/Timeline.scss'
 
 function Timeline({ language = 'en' }: { language?: 'en' | 'fr' }) {
   const isFrench = language === 'fr';
 
   return (
-    <div id="history">
+    <div id="history" className="history-section">
       <div className="items-container">
         <h1>{isFrench ? 'Parcours professionnel' : 'Career History'}</h1>
 
         <VerticalTimeline>
           <VerticalTimelineElement
             className="vertical-timeline-element--work"
-            contentStyle={{ 
-              background: 'white', 
-              color: 'rgb(39, 40, 34)' 
-            }}
-            contentArrowStyle={{ borderRight: '7px solid white' }}
             date={isFrench ? 'Fév. 2026 - Aujourd\'hui' : 'Feb. 2026 - Present'}
             iconStyle={{ background: '#5000ca', color: 'rgb(39, 40, 34)' }}
             icon={<FontAwesomeIcon icon={faBriefcase} />}
           >
             <h3 className="vertical-timeline-element-title">
-              {isFrench ? 'Stagiaire ingénieur machine learning' : 'Machine Learning Engineer Intern'}
+              {isFrench ? 'Stagiaire ingénieur IA' : 'AI Engineer Intern'}
             </h3>
-            <h4 className="vertical-timeline-element-subtitle">
-              Orange
-            </h4>
+            <div className="timeline-institution">
+              <img src={orangeLogo} alt="Orange logo" />
+              <h4 className="vertical-timeline-element-subtitle">Orange</h4>
+            </div>
             <p>
               Rennes, France
             </p>
@@ -42,10 +40,6 @@ function Timeline({ language = 'en' }: { language?: 'en' | 'fr' }) {
 
           <VerticalTimelineElement
             className="vertical-timeline-element--work"
-            contentStyle={{ 
-              background: 'white',
-              color: 'rgb(39, 40, 34)'
-            }}
             date={isFrench ? 'Mai 2025 - Sept. 2025' : 'May 2025 - Sept. 2025'}
             iconStyle={{ background: '#5000ca', color: 'rgb(39, 40, 34)' }}
             icon={<FontAwesomeIcon icon={faBriefcase} />}
@@ -53,9 +47,10 @@ function Timeline({ language = 'en' }: { language?: 'en' | 'fr' }) {
             <h3 className="vertical-timeline-element-title">
               {isFrench ? 'Stagiaire data scientist' : 'Data Scientist Intern'}
             </h3>
-            <h4 className="vertical-timeline-element-subtitle">
-              Sorbonne Université
-            </h4>
+            <div className="timeline-institution">
+              <img src={sorbonneLogo} alt="Sorbonne University logo" />
+              <h4 className="vertical-timeline-element-subtitle">Sorbonne Université</h4>
+            </div>
             <p>
               Paris, France
             </p>

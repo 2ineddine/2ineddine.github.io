@@ -4,13 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
+import sorbonneLogo from '../assets/images/sorbonne.png';
+import lyon1Logo from '../assets/images/lyon1.jpg';
 import '../assets/styles/Timeline.scss';
 
 function EducationTimeline({ language = 'en' }: { language?: 'en' | 'fr' }) {
   const isFrench = language === 'fr';
 
   return (
-    <div id="education">
+    <div id="education" className="education-section">
       <div className="items-container">
         <h1>{isFrench ? 'Formation' : 'Education'}</h1>
 
@@ -18,11 +20,6 @@ function EducationTimeline({ language = 'en' }: { language?: 'en' | 'fr' }) {
 
           <VerticalTimelineElement
             className="vertical-timeline-element--work"
-            contentStyle={{ 
-              background: 'white', 
-              color: 'rgb(39, 40, 34)' 
-            }}
-            contentArrowStyle={{ borderRight: '7px solid white' }}
             date="2024 - 2026"
             iconStyle={{ background: '#5000ca', color: 'rgb(39, 40, 34)' }}
             icon={<FontAwesomeIcon icon={faGraduationCap} />}
@@ -30,9 +27,10 @@ function EducationTimeline({ language = 'en' }: { language?: 'en' | 'fr' }) {
             <h3 className="vertical-timeline-element-title">
               {isFrench ? 'Master – Ingénierie des systèmes intelligents' : 'Master’s – Intelligent Systems Engineering'}
             </h3>
-            <h4 className="vertical-timeline-element-subtitle">
-              Sorbonne University
-            </h4>
+            <div className="timeline-institution">
+              <img src={sorbonneLogo} alt="Sorbonne University logo" />
+              <h4 className="vertical-timeline-element-subtitle">Sorbonne University</h4>
+            </div>
             <p>
               Paris, France
             </p>
@@ -41,11 +39,6 @@ function EducationTimeline({ language = 'en' }: { language?: 'en' | 'fr' }) {
 
           <VerticalTimelineElement
             className="vertical-timeline-element--work"
-            contentStyle={{ 
-              background: 'white',
-              color: 'rgb(39, 40, 34)',
-              paddingRight: '-200px'
-            }}
             date="2021 - 2024"
             iconStyle={{ background: '#5000ca', color: 'rgb(39, 40, 34)' }}
             icon={<FontAwesomeIcon icon={faGraduationCap} />}
@@ -53,9 +46,10 @@ function EducationTimeline({ language = 'en' }: { language?: 'en' | 'fr' }) {
             <h3 className="vertical-timeline-element-title">
               {isFrench ? 'Licence – Électronique, énergie électrique et automatisation' : 'Bachelor’s – Electronics, Electrical Energy and Automation'}
             </h3>
-            <h4 className="vertical-timeline-element-subtitle">
-              Claude Bernard Lyon 1 University
-            </h4>
+            <div className="timeline-institution">
+              <img src={lyon1Logo} alt="Claude Bernard Lyon 1 University logo" />
+              <h4 className="vertical-timeline-element-subtitle">Claude Bernard Lyon 1 University</h4>
+            </div>
             <p>
               Villeurbanne, France
             </p>

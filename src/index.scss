@@ -21,7 +21,7 @@ code {
 
 .main-container {
   position: relative;
-  background-color: #0d1116;
+  background-color: #000;
 
 }
 
@@ -57,6 +57,14 @@ h1, h2, h3, h4, h5 {
 
   svg {
     cursor: pointer;
+  }
+}
+
+.dark-mode {
+  background-color: #000;
+
+  .navigation-bar {
+    background-color: #000;
   }
 }
 

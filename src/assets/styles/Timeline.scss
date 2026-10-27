@@ -1,38 +1,195 @@
-.vertical-timeline span {
-    color: white;
-    font-family: 'Courier Prime', monospace;
+.history-section,
+.education-section {
+  --timeline-accent: #7c3aed;
 }
 
-.vertical-timeline p {
-    color: rgb(39, 40, 34);
+.history-section .vertical-timeline,
+.education-section .vertical-timeline {
+  padding: 2rem 0 1rem;
 }
 
-.vertical-timeline-element p {
-    color: rgb(39, 40, 34);
+.history-section .vertical-timeline::before,
+.education-section .vertical-timeline::before {
+  width: 2px;
+  background: linear-gradient(180deg, transparent, rgba(124, 58, 237, 0.85) 10%, rgba(124, 58, 237, 0.3) 90%, transparent);
 }
 
-.vertical-timeline-element h3 {
-    color: rgb(39, 40, 34);
+.history-section .vertical-timeline-element-content,
+.education-section .vertical-timeline-element-content {
+  padding: 1.5rem 1.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  color: rgba(255, 255, 255, 0.86);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.vertical-timeline-element h4 {
-    color: rgb(39, 40, 34);
+.history-section .vertical-timeline-element-content:hover,
+.education-section .vertical-timeline-element-content:hover {
+  transform: translateY(-3px);
+  border-color: rgba(124, 58, 237, 0.55);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.28), 0 0 24px rgba(80, 0, 202, 0.12);
 }
 
-.vertical-timeline-element span {
-    color: rgb(39, 40, 34);
+.history-section .vertical-timeline-element-content-arrow,
+.education-section .vertical-timeline-element-content-arrow {
+  border-right-color: rgba(255, 255, 255, 0.12) !important;
 }
 
-.vertical-timeline-element .vertical-timeline-element-date {
-    color: white;
+.history-section .vertical-timeline-element-title,
+.education-section .vertical-timeline-element-title {
+  margin: 0 0 0.7rem;
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  line-height: 1.35;
 }
 
-.svg-inline--fa {
-    color: white;
+.timeline-institution {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 0.8rem;
+}
+
+.timeline-institution img {
+  display: block;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  object-fit: contain;
+  padding: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.history-section .vertical-timeline-element-subtitle,
+.education-section .vertical-timeline-element-subtitle {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+.history-section .vertical-timeline-element-content p,
+.education-section .vertical-timeline-element-content p {
+  margin: 0.55rem 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.history-section .vertical-timeline-element-date,
+.education-section .vertical-timeline-element-date {
+  color: rgba(255, 255, 255, 0.72);
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.86rem;
+  letter-spacing: 0.03em;
+}
+
+.history-section .vertical-timeline-element-icon,
+.education-section .vertical-timeline-element-icon {
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: linear-gradient(145deg, #7c3aed, #5000ca) !important;
+  box-shadow: 0 0 0 5px rgba(124, 58, 237, 0.12), 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.history-section .vertical-timeline-element-icon svg,
+.education-section .vertical-timeline-element-icon svg {
+  color: #fff;
+}
+
+.light-mode .history-section .vertical-timeline::before,
+.light-mode .education-section .vertical-timeline::before {
+  background: linear-gradient(180deg, transparent, rgba(80, 0, 202, 0.55) 10%, rgba(80, 0, 202, 0.18) 90%, transparent);
+}
+
+.light-mode .history-section .vertical-timeline-element-content,
+.light-mode .education-section .vertical-timeline-element-content {
+  border-color: rgba(13, 17, 22, 0.1);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.9)) !important;
+  box-shadow: 0 16px 40px rgba(13, 17, 22, 0.09);
+  color: rgba(13, 17, 22, 0.82);
+}
+
+.light-mode .history-section .vertical-timeline-element-content:hover,
+.light-mode .education-section .vertical-timeline-element-content:hover {
+  border-color: rgba(80, 0, 202, 0.32);
+  box-shadow: 0 20px 48px rgba(13, 17, 22, 0.13), 0 0 24px rgba(80, 0, 202, 0.07);
+}
+
+.light-mode .history-section .vertical-timeline-element-content-arrow,
+.light-mode .education-section .vertical-timeline-element-content-arrow {
+  border-right-color: rgba(13, 17, 22, 0.1) !important;
+}
+
+.light-mode .history-section .vertical-timeline-element-title,
+.light-mode .education-section .vertical-timeline-element-title {
+  color: #0d1116;
+}
+
+.light-mode .history-section .vertical-timeline-element-subtitle,
+.light-mode .education-section .vertical-timeline-element-subtitle {
+  color: rgba(13, 17, 22, 0.82);
+}
+
+.light-mode .history-section .vertical-timeline-element-content p,
+.light-mode .education-section .vertical-timeline-element-content p {
+  color: rgba(13, 17, 22, 0.7);
+}
+
+.light-mode .history-section .vertical-timeline-element-date,
+.light-mode .education-section .vertical-timeline-element-date {
+  color: rgba(13, 17, 22, 0.62);
+}
+
+.light-mode .timeline-institution img {
+  border-color: rgba(13, 17, 22, 0.1);
+  background: #fff;
 }
 
 @media screen and (max-width: 1170px) {
-    .vertical-timeline-element .vertical-timeline-element-date {
-        color: rgb(39, 40, 34);
-    }
+  .history-section .vertical-timeline::before,
+  .education-section .vertical-timeline::before {
+    left: 18px;
+  }
+
+  .history-section .vertical-timeline-element-icon,
+  .education-section .vertical-timeline-element-icon {
+    left: 0;
+  }
+
+  .history-section .vertical-timeline-element-content,
+  .education-section .vertical-timeline-element-content {
+    margin-left: 60px;
+  }
+
+  .history-section .vertical-timeline-element-date,
+  .education-section .vertical-timeline-element-date {
+    color: rgba(255, 255, 255, 0.68);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .history-section .vertical-timeline,
+  .education-section .vertical-timeline {
+    padding-top: 1.25rem;
+  }
+
+  .history-section .vertical-timeline-element-content,
+  .education-section .vertical-timeline-element-content {
+    margin-left: 50px;
+    padding: 1.15rem;
+  }
+
+  .timeline-institution img {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+  }
 }
