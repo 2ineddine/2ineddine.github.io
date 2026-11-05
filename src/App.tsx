@@ -14,6 +14,7 @@ import {
 } from "./components";
 import FadeIn from './components/FadeIn';
 import './index.scss';
+import './assets/styles/theme.scss'; // keep last so it overrides component styles
 
 function App() {
     const [mode, setMode] = useState<string>('dark');

@@ -102,17 +102,21 @@ function Navigation({ parentToChild, modeChange, language = 'en', onLanguageChan
             <MenuIcon />
           </IconButton>
           <Box sx={{ display: { xs: 'none', sm: 'block' }, flexGrow: 1 }}>
-            {navItems.map((item) => (
-              <Button key={item[0]} onClick={() => scrollToSection(item[1])} sx={{ color: '#fff' }}>
+            {navItems.filter((i) => i[1] !== 'contact').map((item) => (
+              <Button key={item[0]} onClick={() => scrollToSection(item[1])} sx={{ display: { sm: 'inline-flex' } }}>
                 {item[0]}
               </Button>
             ))}
           </Box>
           <Button
+            className="lang-btn"
             onClick={() => onLanguageChange?.(language === 'en' ? 'fr' : 'en')}
-            sx={{ color: '#fff', minWidth: 'auto', border: '1px solid rgba(255,255,255,0.25)', borderRadius: '999px' }}
+            sx={{ minWidth: 'auto' }}
           >
             {language === 'en' ? 'FR' : 'EN'}
+          </Button>
+          <Button className="nav-cta" onClick={() => scrollToSection('contact')} sx={{ display: { xs: 'none', sm: 'inline-flex' } }}>
+            {language === 'fr' ? 'Contact ↗' : 'Contact ↗'}
           </Button>
         </Toolbar>
       </AppBar>

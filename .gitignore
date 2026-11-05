@@ -1,3 +1,6 @@
 node_modules/
 build/
 .env
+
+# Original font download (used fonts are in src/assets/fonts)
+PP_Telegraf_-_/
