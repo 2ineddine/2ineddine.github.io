@@ -21,9 +21,8 @@ function Navigation({ parentToChild, modeChange, language = 'en', onLanguageChan
     ? [
         ['Accueil', 'home'],
         ['Projets', 'projects'],
-        ['Expertises', 'expertise'],
-        ['Historique', 'history'],
-        ['Formation', 'education'],
+        ['Compétences', 'expertise'],
+        ['Parcours', 'history'],
         ['Langues', 'languages'],
         ['Certifications', 'certifications'],
         ['Langages', 'programming-languages'],
@@ -32,9 +31,8 @@ function Navigation({ parentToChild, modeChange, language = 'en', onLanguageChan
     : [
         ['Home', 'home'],
         ['Projects', 'projects'],
-        ['Expertise', 'expertise'],
-        ['History', 'history'],
-        ['Education', 'education'],
+        ['Skills', 'expertise'],
+        ['Journey', 'history'],
         ['Languages', 'languages'],
         ['Certifications', 'certifications'],
         ['Programming', 'programming-languages'],

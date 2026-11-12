@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react";
 import {
   Main,
   Timeline,
-  EducationTimeline,
   Languages,
   Expertise,
   Project,
@@ -45,7 +44,6 @@ function App() {
             <Project language={language} />
             <Expertise language={language} />
             <Timeline language={language} />
-            <EducationTimeline language={language} />
             <Languages language={language} />
             <Certifications language={language} />
             <ProgrammingLanguages language={language} />
