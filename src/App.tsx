@@ -14,6 +14,7 @@ import {
 } from "./components";
 import Reveal from "./components/Reveal";
 import Marquee from "./components/Marquee";
+import GithubActivity from "./components/GithubActivity";
 import ScrollProgress from "./components/ScrollProgress";
 import './index.scss';
 import './assets/styles/theme.scss'; // keep last so it overrides component styles
@@ -88,6 +89,7 @@ function App() {
             <Main language={language} />
             <Marquee language={language} />
             <Reveal><Project language={language} /></Reveal>
+            <Reveal><GithubActivity language={language} /></Reveal>
             <Reveal><Expertise language={language} /></Reveal>
             <Reveal><Timeline language={language} /></Reveal>
             <Reveal><Languages language={language} /></Reveal>

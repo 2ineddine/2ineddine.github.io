@@ -1,5 +1,6 @@
 export const EMAIL = "zed.bouhadjira@gmail.com";
-export const GITHUB = "https://github.com/2ineddine";
+export const GITHUB_USER = "2ineddine";
+export const GITHUB = `https://github.com/${GITHUB_USER}`;
 export const LINKEDIN = "https://fr.linkedin.com/in/zineddine-bouhadjira";
 
 export const PROJECTS: { id: string; title: string; cat: string }[] = [

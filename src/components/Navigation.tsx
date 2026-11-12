@@ -21,6 +21,7 @@ function Navigation({ parentToChild, modeChange, language = 'en', onLanguageChan
     ? [
         ['Accueil', 'home'],
         ['Projets', 'projects'],
+        ['Activité', 'activity'],
         ['Compétences', 'expertise'],
         ['Parcours', 'history'],
         ['Langues', 'languages'],
@@ -31,6 +32,7 @@ function Navigation({ parentToChild, modeChange, language = 'en', onLanguageChan
     : [
         ['Home', 'home'],
         ['Projects', 'projects'],
+        ['Activity', 'activity'],
         ['Skills', 'expertise'],
         ['Journey', 'history'],
         ['Languages', 'languages'],
@@ -65,7 +67,7 @@ function Navigation({ parentToChild, modeChange, language = 'en', onLanguageChan
 
   // Scroll-spy: the current section is the last one whose top has passed 40% of the viewport.
   useEffect(() => {
-    const ids = ['home', 'projects', 'expertise', 'history', 'languages', 'certifications', 'programming-languages', 'contact'];
+    const ids = ['home', 'projects', 'activity', 'expertise', 'history', 'languages', 'certifications', 'programming-languages', 'contact'];
     let raf = 0;
     const update = () => {
       raf = 0;
