@@ -41,6 +41,7 @@ function Navigation({ parentToChild, modeChange, language = 'en', onLanguageChan
 
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const [scrolled, setScrolled] = useState<boolean>(false);
+  const [current, setCurrent] = useState<string>('home');
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -60,6 +61,26 @@ function Navigation({ parentToChild, modeChange, language = 'en', onLanguageChan
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
+  }, []);
+
+  // Scroll-spy: the current section is the last one whose top has passed 40% of the viewport.
+  useEffect(() => {
+    const ids = ['home', 'projects', 'expertise', 'history', 'languages', 'certifications', 'programming-languages', 'contact'];
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      let cur = ids[0];
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.4) cur = id;
+      }
+      setCurrent(cur);
+    };
+    const on = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', on, { passive: true });
+    window.addEventListener('resize', on);
+    return () => { window.removeEventListener('scroll', on); window.removeEventListener('resize', on); cancelAnimationFrame(raf); };
   }, []);
 
   const scrollToSection = (section: string) => {
@@ -101,7 +122,7 @@ function Navigation({ parentToChild, modeChange, language = 'en', onLanguageChan
           </IconButton>
           <Box sx={{ display: { xs: 'none', sm: 'block' }, flexGrow: 1 }}>
             {navItems.filter((i) => i[1] !== 'contact').map((item) => (
-              <Button key={item[0]} onClick={() => scrollToSection(item[1])} sx={{ display: { sm: 'inline-flex' } }}>
+              <Button key={item[0]} className={current === item[1] ? 'nav-link active' : 'nav-link'} onClick={() => scrollToSection(item[1])} sx={{ display: { sm: 'inline-flex' } }}>
                 {item[0]}
               </Button>
             ))}

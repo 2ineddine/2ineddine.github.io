@@ -1,0 +1,89 @@
+/* ============================================================
+   Polish layer: motion, scroll UX, spotlight…
+   ============================================================ */
+:root { --line-strong: rgba(255, 247, 236, .3); }
+.light-mode { --line-strong: rgba(17, 19, 20, .35); }
+
+/* ---------- Accessibility ---------- */
+.skip-link { position: fixed; left: 16px; top: -60px; z-index: 5000; padding: 10px 16px; border-radius: 8px; background: var(--yellow); color: var(--on-accent) !important; font-weight: 800; transition: top .2s; }
+.skip-link:focus { top: 16px; }
+:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+
+/* ---------- Scroll progress ---------- */
+.scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 2000; pointer-events: none; }
+.scroll-progress > div { height: 100%; transform-origin: 0 50%; transform: scaleX(0); background: var(--yellow); box-shadow: 0 0 12px color-mix(in srgb, var(--yellow) 80%, transparent); }
+
+/* ---------- Scroll reveal ---------- */
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity .8s cubic-bezier(.2, .7, .2, 1), transform .8s cubic-bezier(.2, .7, .2, 1); }
+.reveal.is-in { opacity: 1; transform: none; }
+@keyframes rise { from { opacity: 0; transform: translateY(26px); } }
+@media (prefers-reduced-motion: no-preference) {
+  .reveal.is-in .projects-grid > *, .reveal.is-in .certifications-grid > *, .reveal.is-in .jr-card, .reveal.is-in .gx > * {
+    animation: rise .7s cubic-bezier(.2, .7, .2, 1) backwards;
+  }
+  @for $i from 2 through 12 {
+    .reveal.is-in .projects-grid > *:nth-child(#{$i}), .reveal.is-in .certifications-grid > *:nth-child(#{$i}) { animation-delay: #{($i - 1) * 70}ms; }
+  }
+  .reveal.is-in .gx > *:nth-child(2) { animation-delay: .12s; }
+  .about-section .content > * { animation: rise .8s cubic-bezier(.2, .7, .2, 1) backwards; }
+  @for $i from 1 through 8 { .about-section .content > *:nth-child(#{$i}) { animation-delay: #{$i * 80}ms; } }
+  .about-section .image-wrapper { animation: rise 1s .25s cubic-bezier(.2, .7, .2, 1) backwards; }
+}
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+/* ---------- Theme switch: circular reveal ---------- */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2; }
+
+/* ---------- Nav: active link ---------- */
+.navigation-bar .nav-link { position: relative; }
+.navigation-bar .nav-link::after { content: ''; position: absolute; left: 50%; bottom: 4px; width: 0; height: 3px; border-radius: 2px; background: var(--yellow); transform: translateX(-50%); transition: width .3s ease; }
+.navigation-bar .nav-link.active::after { width: 18px; }
+
+/* ---------- Hero ---------- */
+.about-section::after { left: var(--gx, 78%) !important; top: var(--gy, 30%) !important; right: auto !important; transform: translate(-50%, -50%); transition: left .8s cubic-bezier(.2, .7, .2, 1), top .8s cubic-bezier(.2, .7, .2, 1); }
+.rot { display: inline-block; color: var(--text); font-weight: 800; padding: 0 .35em; border-radius: 6px; background: color-mix(in srgb, var(--yellow) 28%, transparent); animation: rot-in .5s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes rot-in { from { opacity: 0; transform: translateY(.6em); } }
+.hero-stats { grid-template-columns: repeat(4, auto) !important; max-width: 640px !important; }
+.hero-stats div { padding-right: 34px !important; }
+.hero-stats strong { font-variant-numeric: tabular-nums; }
+@media (max-width: 520px) { .hero-stats { grid-template-columns: repeat(2, 1fr) !important; } }
+
+/* ---------- Marquee ---------- */
+.mq { overflow: hidden; border-block: 1px solid var(--line); background: var(--bg-2); padding: 18px 0; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.mq-track { display: flex; width: max-content; animation: mq 48s linear infinite; }
+.mq:hover .mq-track { animation-play-state: paused; }
+.mq-row { display: flex; gap: 14px; list-style: none; margin: 0; padding: 0 7px; }
+.mq-row button { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; padding: 10px 18px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--text); font: inherit; font-size: .9rem; cursor: pointer; transition: all .2s; }
+.mq-row button i { width: 7px; height: 7px; border-radius: 50%; background: var(--yellow); }
+.mq-row button:hover { background: var(--yellow); border-color: var(--yellow); color: var(--on-accent); }
+.main-container .mq-row button { color: var(--text); }
+.main-container .mq-row button:hover { color: var(--on-accent); }
+@keyframes mq { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .mq-track { animation: none; } .mq { overflow-x: auto; } }
+
+/* ---------- Project filters ---------- */
+.pj-filters { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 12px; margin: 4px 0 30px; }
+.pj-filters button { border: 0; background: transparent; padding: 9px 18px; border-radius: 8px; cursor: pointer; font-family: var(--font-body); font-size: .82rem; font-weight: 800; letter-spacing: .04em; color: var(--muted); transition: all .2s; }
+.pj-filters button.on { background: var(--yellow); color: var(--on-accent); }
+.main-container .pj-filters button { color: var(--muted); }
+.main-container .pj-filters button.on { color: var(--on-accent); }
+.projects-grid[data-filter='vision'] .project:not([data-cat='vision']),
+.projects-grid[data-filter='audio'] .project:not([data-cat='audio']),
+.projects-grid[data-filter='llm'] .project:not([data-cat='llm']) { display: none; }
+
+/* ---------- Card spotlight ---------- */
+.project-featured-shell, .certification-card, .jr-card, .gx-panel, .language-card { position: relative; }
+.project-featured-shell::after, .certification-card::after, .jr-card::after, .gx-panel::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s;
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--yellow) 16%, transparent), transparent 62%);
+}
+.project-featured-shell:hover::after, .certification-card:hover::after, .jr-card:hover::after, .gx-panel:hover::after { opacity: 1; }
+
+/* ---------- Copy email ---------- */
+.copy-email { display: inline-flex; align-items: center; gap: 14px; padding: 8px 8px 8px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--text); font: inherit; font-size: .95rem; cursor: pointer; transition: border-color .2s, transform .2s; }
+.copy-email b { padding: 8px 14px; border-radius: 8px; background: var(--yellow); color: var(--on-accent); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+.copy-email:hover { border-color: var(--yellow); transform: translateY(-2px); }
+.main-container .copy-email { color: var(--text); }
+.copy-email.in-contact { margin: 6px 0 4px; }

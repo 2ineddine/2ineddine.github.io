@@ -93,7 +93,7 @@ export default function NeuralGraph({
         const sa = byId.get(a), sb = byId.get(b);
         if (!sa || !sb) return null;
         const hubSide = sa.hub ? sa : sb;
-        return { a: sa, b: sb, color: colorOf.get(hubSide.id) || "#ffd208" };
+        return { a: sa, b: sb, color: colorOf.get(hubSide.id) || "#c6ff3d" };
       })
       .filter(Boolean) as { a: Sim; b: Sim; color: string }[];
 
@@ -119,7 +119,18 @@ export default function NeuralGraph({
     let pointer: { x: number; y: number } | null = null;
     let dragging = false;
     let textRGB = "17,19,20";
+    const colorCache = new Map<string, string>();
+    const col = (c: string) => {
+      let v = colorCache.get(c);
+      if (v === undefined) {
+        const m = c.match(/^var\((--[\w-]+)\)$/);
+        v = m ? getComputedStyle(wrapEl).getPropertyValue(m[1]).trim() || "#c6ff3d" : c;
+        colorCache.set(c, v);
+      }
+      return v;
+    };
     const readTheme = () => {
+      colorCache.clear();
       const m = getComputedStyle(wrapEl).color.match(/\d+/g);
       if (m) textRGB = `${m[0]},${m[1]},${m[2]}`;
     };
@@ -190,7 +201,7 @@ export default function NeuralGraph({
         const lit = !!act && act.has(l.a.id) && act.has(l.b.id);
         ctx.beginPath();
         ctx.moveTo(l.a.x, l.a.y); ctx.lineTo(l.b.x, l.b.y);
-        if (touches) { ctx.strokeStyle = l.color; ctx.globalAlpha = 0.95; ctx.lineWidth = 1.8; }
+        if (touches) { ctx.strokeStyle = col(l.color); ctx.globalAlpha = 0.95; ctx.lineWidth = 1.8; }
         else if (act) { ctx.strokeStyle = `rgba(${textRGB},1)`; ctx.globalAlpha = lit ? 0.22 : 0.05; ctx.lineWidth = 1; }
         else { ctx.strokeStyle = `rgba(${textRGB},1)`; ctx.globalAlpha = 0.2; ctx.lineWidth = 1; }
         ctx.stroke();
@@ -200,7 +211,8 @@ export default function NeuralGraph({
         const l = L[p.l];
         const x = l.a.x + (l.b.x - l.a.x) * p.t, y = l.a.y + (l.b.y - l.a.y) * p.t;
         ctx.beginPath(); ctx.arc(x, y, 2.6, 0, Math.PI * 2);
-        ctx.fillStyle = l.color; ctx.shadowColor = l.color; ctx.shadowBlur = 12; ctx.fill();
+        const pc = col(l.color);
+        ctx.fillStyle = pc; ctx.shadowColor = pc; ctx.shadowBlur = 12; ctx.fill();
         ctx.shadowBlur = 0;
       });
       sims.forEach((s) => {

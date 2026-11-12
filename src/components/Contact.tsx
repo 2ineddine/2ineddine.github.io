@@ -3,6 +3,7 @@ import '../assets/styles/Contact.scss';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
+import CopyEmail from './CopyEmail';
 import TextField from '@mui/material/TextField';
 
 function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
@@ -103,6 +104,7 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
         <div className="contact_wrapper">
           <h1>{copy.title}</h1>
           <p>{copy.description}</p>
+          <CopyEmail language={language} className="in-contact" />
           <Box
             component="form"
             noValidate

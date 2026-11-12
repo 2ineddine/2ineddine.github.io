@@ -7,10 +7,10 @@ import NeuralGraph, { GLink, GNode } from "./NeuralGraph";
 type L2 = { en: string; fr: string };
 
 const DOMAINS: { id: string; color: string; icon: any; name: L2 }[] = [
-  { id: "d-ai", color: "#ffd208", icon: faBrain, name: { en: "AI & Signal", fr: "IA & Signal" } },
-  { id: "d-emb", color: "#ff8a3d", icon: faMicrochip, name: { en: "Embedded & Hardware", fr: "Embarqué & Matériel" } },
-  { id: "d-data", color: "#5b7cff", icon: faDatabase, name: { en: "Data", fr: "Données" } },
-  { id: "d-sys", color: "#2fd6a0", icon: faGears, name: { en: "Systems & Automation", fr: "Systèmes & Automatisation" } },
+  { id: "d-ai", color: "var(--s1)", icon: faBrain, name: { en: "AI & Signal", fr: "IA & Signal" } },
+  { id: "d-emb", color: "var(--s4)", icon: faMicrochip, name: { en: "Embedded & Hardware", fr: "Embarqué & Matériel" } },
+  { id: "d-data", color: "var(--s2)", icon: faDatabase, name: { en: "Data", fr: "Données" } },
+  { id: "d-sys", color: "var(--s3)", icon: faGears, name: { en: "Systems & Automation", fr: "Systèmes & Automatisation" } },
 ];
 
 const LANGS: { id: string; name: string; icon: ReactNode; domains: string[]; use: L2 }[] = [
@@ -35,6 +35,8 @@ const LANGS: { id: string; name: string; icon: ReactNode; domains: string[]; use
   { id: "bash", name: "Bash", icon: SiGnubash({}), domains: ["d-sys"],
     use: { en: "Linux automation and tooling.", fr: "Automatisation et outillage Linux." } },
 ];
+
+export const LANG_COUNT = LANGS.length;
 
 function ProgrammingLanguages({ language = "en" }: { language?: "en" | "fr" }) {
   const fr = language === "fr";

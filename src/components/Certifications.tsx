@@ -76,6 +76,8 @@ const certifications = [
   verificationUrl: `${CERTIFICATE_BASE_URL}${certificate.credentialId}`,
 }));
 
+export const CERT_COUNT = certifications.length;
+
 function Certifications({ language = 'en' }: { language?: 'en' | 'fr' }) {
   const isFrench = language === 'fr';
 

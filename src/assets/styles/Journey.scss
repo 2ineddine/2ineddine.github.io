@@ -10,7 +10,7 @@
 }
 
 .jr-now { position: absolute; top: 94px; transform: translate(-50%, -50%); z-index: 4; pointer-events: none; }
-.jr-now i { display: block; width: 14px; height: 14px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 0 rgba(255,210,8,.7); animation: pulse 2s infinite; border: 3px solid var(--bg); }
+.jr-now i { display: block; width: 14px; height: 14px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 0 color-mix(in srgb, var(--yellow) 70%, transparent); animation: pulse 2s infinite; border: 3px solid var(--bg); }
 .jr-now b { position: absolute; top: -66px; left: 50%; transform: translateX(-60%); font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text); white-space: nowrap; }
 
 .jr-lane { position: absolute; left: 0; font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 800; }
@@ -28,7 +28,7 @@
 .jr-seg.work .jr-seg-label { bottom: 38px; }
 .jr-seg.edu .jr-seg-label { top: 38px; }
 .jr-seg:hover { transform: translateY(-3px); border-color: var(--yellow); }
-.jr-seg.on { background: var(--yellow); border-color: var(--yellow); box-shadow: 0 0 24px rgba(255,210,8,.45); }
+.jr-seg.on { background: var(--yellow); border-color: var(--yellow); box-shadow: 0 0 24px color-mix(in srgb, var(--yellow) 45%, transparent); }
 .jr-seg.edu.on { background: var(--text); border-color: var(--text); box-shadow: none; }
 .jr-seg.off { opacity: .25; }
 .jr-seg.work:not(.on) { border-color: color-mix(in srgb, var(--yellow) 55%, var(--line)); }
@@ -39,17 +39,17 @@
 .jr-filters button {
   border: 0; background: transparent; padding: 9px 18px; border-radius: 8px; cursor: pointer; font-family: var(--font-body);
   font-size: .82rem; font-weight: 800; letter-spacing: .04em; color: var(--muted); transition: all .2s;
-  &.on { background: var(--yellow); color: #111314; }
+  &.on { background: var(--yellow); color: var(--on-accent); }
 }
 .main-container .jr-filters button { color: var(--muted); }
-.main-container .jr-filters button.on { color: #111314; }
+.main-container .jr-filters button.on { color: var(--on-accent); }
 
 /* ---------- Cards + scroll-linked spine ---------- */
 .jr-list { position: relative; padding-left: 64px; --p: 0; display: flex; flex-direction: column; gap: 22px; }
 .jr-spine { position: absolute; left: 21px; top: 0; bottom: 0; width: 2px; background: var(--line); border-radius: 2px; }
 .jr-spine i {
   position: absolute; left: 0; top: 0; width: 100%; height: calc(var(--p) * 100%); background: var(--yellow);
-  box-shadow: 0 0 14px rgba(255,210,8,.7); border-radius: 2px;
+  box-shadow: 0 0 14px color-mix(in srgb, var(--yellow) 70%, transparent); border-radius: 2px;
   &::after { content: ''; position: absolute; left: 50%; bottom: -6px; width: 12px; height: 12px; border-radius: 50%; transform: translateX(-50%); background: var(--yellow); box-shadow: 0 0 18px var(--yellow); }
 }
 .jr-card {
@@ -62,11 +62,11 @@
   border-radius: 50%; background: var(--bg); border: 2px solid var(--line); color: var(--muted); font-size: .95rem; transition: all .3s;
 }
 .jr-card.edu .jr-marker { border-radius: 12px; transform: rotate(45deg); svg { transform: rotate(-45deg); } }
-.jr-card.on .jr-marker { background: var(--yellow); border-color: var(--yellow); color: #111314; box-shadow: 0 0 0 6px color-mix(in srgb, var(--yellow) 25%, transparent), 0 0 26px rgba(255,210,8,.6); }
+.jr-card.on .jr-marker { background: var(--yellow); border-color: var(--yellow); color: var(--on-accent); box-shadow: 0 0 0 6px color-mix(in srgb, var(--yellow) 25%, transparent), 0 0 26px color-mix(in srgb, var(--yellow) 60%, transparent); }
 .jr-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
 .jr-date { font-size: .78rem; font-weight: 800; padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; color: var(--text); }
-.jr-card.on .jr-date { background: var(--yellow); border-color: var(--yellow); color: #111314; }
-.main-container .jr-card.on .jr-date { color: #111314; }
+.jr-card.on .jr-date { background: var(--yellow); border-color: var(--yellow); color: var(--on-accent); }
+.main-container .jr-card.on .jr-date { color: var(--on-accent); }
 .main-container .jr-card h3 { margin: 0; font-size: clamp(1.25rem, 2vw, 1.7rem); line-height: 1.12; }
 .jr-org { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: .95rem; color: var(--muted); }
 .jr-org img { width: 34px; height: 34px; object-fit: contain; border-radius: 8px; background: #fff; padding: 3px; }

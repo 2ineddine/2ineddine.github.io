@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import laborCode from '../assets/images/labor-code.png';
 import sourceSeparation from '../assets/images/sources-separation.jpeg';
 import txttospeech from '../assets/images/txttospeech.jpg';
@@ -11,6 +11,27 @@ import '../assets/styles/Project.scss';
 function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
     const [activeProject, setActiveProject] = useState<string | null>(null);
     const isFrench = language === 'fr';
+    const [filter, setFilter] = useState<'all' | 'vision' | 'audio' | 'llm'>('all');
+
+    // Other sections (e.g. the tech ticker) can open a specific project.
+    useEffect(() => {
+        const onFocus = (e: Event) => {
+            const id = (e as CustomEvent<{ id: string }>).detail?.id;
+            if (!id) return;
+            setFilter('all');
+            setActiveProject(id);
+            setTimeout(() => document.getElementById(`project-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60);
+        };
+        window.addEventListener('project-focus', onFocus);
+        return () => window.removeEventListener('project-focus', onFocus);
+    }, []);
+
+    const filters: ['all' | 'vision' | 'audio' | 'llm', string][] = [
+        ['all', isFrench ? 'Tous' : 'All'],
+        ['vision', isFrench ? 'Vision' : 'Vision'],
+        ['audio', 'Audio'],
+        ['llm', 'LLM'],
+    ];
 
     const isFeaturedOpen = activeProject === "labor-code";
     const isSourceSeparationOpen = activeProject === "source-separation";
@@ -23,8 +44,15 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
     return(
     <div className="projects-container" id="projects">
         <h1>{isFrench ? 'Projets personnels' : 'Personal Projects'}</h1>
-        <div className="projects-grid">
-            <article className={`project project-featured ${isNvidiaOpen ? "is-open" : ""}`}>
+        <div className="pj-filters" role="tablist" aria-label={isFrench ? 'Filtrer les projets' : 'Filter projects'}>
+            {filters.map(([key, label]) => (
+                <button key={key} role="tab" aria-selected={filter === key} className={filter === key ? 'on' : ''} onClick={() => setFilter(key)}>
+                    {label}
+                </button>
+            ))}
+        </div>
+        <div className="projects-grid" data-filter={filter}>
+            <article id="project-nvidia" data-cat="llm" className={`project project-featured ${isNvidiaOpen ? "is-open" : ""}`}>
                 <div className="project-featured-shell">
                     <button
                         type="button"
@@ -34,6 +62,8 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                         aria-controls="nvidia-details"
                     >
                         <img
+                            loading="lazy"
+                            decoding="async"
                             src={nvidia}
                             className="zoom project-featured-image"
                             alt="NVIDIA Nemotron fine-tuning project preview"
@@ -75,7 +105,7 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                 </div>
             </article>
 
-            <article className={`project project-featured ${isMotionOpen ? "is-open" : ""}`}>
+            <article id="project-motion" data-cat="vision" className={`project project-featured ${isMotionOpen ? "is-open" : ""}`}>
                 <div className="project-featured-shell">
                     <button
                         type="button"
@@ -85,6 +115,8 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                         aria-controls="motion-details"
                     >
                         <img
+                            loading="lazy"
+                            decoding="async"
                             src={detection}
                             className="zoom project-featured-image"
                             alt="Motion Detection Estimation and Tracking on Images preview"
@@ -124,7 +156,7 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                 </div>
             </article>
 
-            <article className={`project project-featured ${isYolo26Open ? "is-open" : ""}`}>
+            <article id="project-yolo26" data-cat="vision" className={`project project-featured ${isYolo26Open ? "is-open" : ""}`}>
                 <div className="project-featured-shell">
                     <button
                         type="button"
@@ -134,6 +166,8 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                         aria-controls="yolo26-details"
                     >
                         <img
+                            loading="lazy"
+                            decoding="async"
                             src={yolo26}
                             className="zoom project-featured-image"
                             alt="YOLO26 pothole and crack detection preview"
@@ -173,7 +207,7 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                 </div>
             </article>
 
-            <article className={`project project-featured ${isFeaturedOpen ? "is-open" : ""}`}>
+            <article id="project-labor-code" data-cat="llm" className={`project project-featured ${isFeaturedOpen ? "is-open" : ""}`}>
                 <div className="project-featured-shell">
                     <button
                         type="button"
@@ -183,6 +217,8 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                         aria-controls="labor-code-details"
                     >
                         <img
+                            loading="lazy"
+                            decoding="async"
                             src={laborCode}
                             className="zoom project-featured-image"
                             alt="Retrieval-Augmented Generation System for French Labor Code preview"
@@ -230,7 +266,7 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                 </div>
             </article>
 
-            <article className={`project project-featured ${isSourceSeparationOpen ? "is-open" : ""}`}>
+            <article id="project-source-separation" data-cat="audio" className={`project project-featured ${isSourceSeparationOpen ? "is-open" : ""}`}>
                 <div className="project-featured-shell">
                     <button
                         type="button"
@@ -240,6 +276,8 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                         aria-controls="source-separation-details"
                     >
                         <img
+                            loading="lazy"
+                            decoding="async"
                             src={sourceSeparation}
                             className="zoom project-featured-image"
                             alt="Singing voice separation with Deep U-Net preview"
@@ -279,7 +317,7 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                 </div>
             </article>
 
-            <article className={`project project-featured ${isMatchaOpen ? "is-open" : ""}`}>
+            <article id="project-matcha" data-cat="audio" className={`project project-featured ${isMatchaOpen ? "is-open" : ""}`}>
                 <div className="project-featured-shell">
                     <button
                         type="button"
@@ -289,6 +327,8 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                         aria-controls="matcha-details"
                     >
                         <img
+                            loading="lazy"
+                            decoding="async"
                             src={txttospeech}
                             className="zoom project-featured-image"
                             alt="Matcha-TTS Implementation Analysis preview"
@@ -328,7 +368,7 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                 </div>
             </article>
 
-            <article className={`project project-featured ${isJungleOpen ? "is-open" : ""}`}>
+            <article id="project-jungle" data-cat="audio" className={`project project-featured ${isJungleOpen ? "is-open" : ""}`}>
                 <div className="project-featured-shell">
                     <button
                         type="button"
@@ -338,6 +378,8 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                         aria-controls="jungle-details"
                     >
                         <img
+                            loading="lazy"
+                            decoding="async"
                             src={jungle}
                             className="zoom project-featured-image"
                             alt="Forest acoustic learning preview"

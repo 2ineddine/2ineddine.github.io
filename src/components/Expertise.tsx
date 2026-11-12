@@ -11,7 +11,7 @@ export const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").r
 
 const HUBS: { id: string; icon: any; color: string; short: L2; title: L2; desc: L2; stack: string[] }[] = [
   {
-    id: "dl", icon: faBrain, color: "#ffd208",
+    id: "dl", icon: faBrain, color: "var(--s1)",
     short: { en: "Deep Learning", fr: "Deep Learning" },
     title: { en: "Deep Learning & Generative Modeling", fr: "Apprentissage profond et modélisation générative" },
     desc: {
@@ -21,7 +21,7 @@ const HUBS: { id: string; icon: any; color: string; short: L2; title: L2; desc: 
     stack: ["PyTorch", "TensorFlow/Keras", "scikit-learn", "CNNs", "Transformers", "GANs", "WGAN / WGAN-GP", "Diffusion Models", "Flow Matching"],
   },
   {
-    id: "cv", icon: faEye, color: "#5b7cff",
+    id: "cv", icon: faEye, color: "var(--s2)",
     short: { en: "Vision", fr: "Vision" },
     title: { en: "Computer Vision & Multimodal Perception", fr: "Vision par ordinateur et perception multimodale" },
     desc: {
@@ -31,7 +31,7 @@ const HUBS: { id: string; icon: any; color: string; short: L2; title: L2; desc: 
     stack: ["OpenCV", "YOLOv8", "Object Detection", "Instance Segmentation", "Optical Flow", "Multi-Object Tracking", "Kalman & Particle Filters", "Camera-LiDAR Fusion", "DINO / ViT"],
   },
   {
-    id: "audio", icon: faWaveSquare, color: "#2fd6a0",
+    id: "audio", icon: faWaveSquare, color: "var(--s3)",
     short: { en: "Audio", fr: "Audio" },
     title: { en: "Audio & Speech Processing", fr: "Traitement audio et vocal" },
     desc: {
@@ -41,7 +41,7 @@ const HUBS: { id: string; icon: any; color: string; short: L2; title: L2; desc: 
     stack: ["Signal Processing", "Audio Source Separation", "Speech Synthesis (TTS)", "Ambisonic Audio"],
   },
   {
-    id: "mlops", icon: faDocker, color: "#ff8a3d",
+    id: "mlops", icon: faDocker, color: "var(--s4)",
     short: { en: "MLOps", fr: "MLOps" },
     title: { en: "MLOps & Cloud Infrastructure", fr: "MLOps et infrastructure cloud" },
     desc: {
@@ -51,7 +51,7 @@ const HUBS: { id: string; icon: any; color: string; short: L2; title: L2; desc: 
     stack: ["Docker", "Kubernetes", "GitLab CI/CD", "PostgreSQL", "Experiment Tracking", "Model Versioning", "Model Monitoring", "Google Cloud Platform", "Vertex AI", "Databricks", "Linux"],
   },
   {
-    id: "llm", icon: faRobot, color: "#ff6fae",
+    id: "llm", icon: faRobot, color: "var(--s5)",
     short: { en: "LLMs", fr: "LLM" },
     title: { en: "LLM Engineering & Retrieval Systems", fr: "Ingénierie LLM et systèmes de recherche" },
     desc: {
@@ -69,6 +69,16 @@ const SHARED: Record<string, string[]> = {
   "dino-vit": ["dl"],
   "experiment-tracking": ["dl"],
 };
+
+// Flat index of every hub/tool, used by the tech marquee.
+export const SKILL_INDEX: { id: string; label: string; hub: boolean }[] = (() => {
+  const seen = new Set<string>();
+  const out: { id: string; label: string; hub: boolean }[] = [];
+  HUBS.forEach((h) => out.push({ id: h.id, label: h.short.en, hub: true }));
+  HUBS.forEach((h) => h.stack.forEach((l) => { const id = slug(l); if (!seen.has(id)) { seen.add(id); out.push({ id, label: l, hub: false }); } }));
+  return out;
+})();
+export const TOOL_COUNT = SKILL_INDEX.filter((s) => !s.hub).length;
 
 function Expertise({ language = "en" }: { language?: "en" | "fr" }) {
   const fr = language === "fr";
