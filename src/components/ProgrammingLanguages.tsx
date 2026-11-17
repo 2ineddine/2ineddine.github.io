@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMicrochip, faTerminal, faDatabase, faLaptopCode, faBrain, faGears } from "@fortawesome/free-solid-svg-icons";
 import { SiPython, SiC, SiCplusplus, SiSharp, SiGnubash, SiR } from "react-icons/si";
 import NeuralGraph, { GLink, GNode } from "./NeuralGraph";
+import { isTouch } from "../data/site";
 
 type L2 = { en: string; fr: string };
 
@@ -57,7 +58,7 @@ function ProgrammingLanguages({ language = "en" }: { language?: "en" | "fr" }) {
     <section className="programming-languages" id="programming-languages">
       <h1>{fr ? "Langages de programmation" : "Programming Languages"}</h1>
       <p className="skills-lead">
-        {fr ? "Dix langages reliés par ce que j'en fais. Touchez un langage pour voir ses domaines." : "Ten languages, wired together by what I use them for. Poke one to see its domains."}
+        {fr ? "Dix langages reliés par ce que j'en fais. Touchez un langage pour voir ses domaines." : isTouch() ? "Ten languages, wired together by what I use them for. Tap one to see its domains." : "Ten languages, wired together by what I use them for. Poke one to see its domains."}
       </p>
 
       <div className="gx">

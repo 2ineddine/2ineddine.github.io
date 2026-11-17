@@ -320,6 +320,7 @@ export default function NeuralGraph({
               if (Math.hypot(e.clientX - d.sx, e.clientY - d.sy) > 4) d.moved = true;
               if (d.moved) { const [x, y] = rel(e); api.current?.moveDrag(n.id, x, y); }
             }}
+            onPointerCancel={() => { api.current?.endDrag(n.id); drag.current = null; }}
             onPointerUp={(e) => {
               if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
               api.current?.endDrag(n.id);

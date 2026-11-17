@@ -6,11 +6,16 @@ import detection from '../assets/images/detection.jpeg';
 import yolo26 from '../assets/images/yolo26.jpg';
 import jungle from '../assets/images/jungle.jpeg';
 import nvidia from '../assets/images/nvidia.jpeg';
+import { isTouch } from '../data/site';
 import '../assets/styles/Project.scss';
 
 function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
     const [activeProject, setActiveProject] = useState<string | null>(null);
     const isFrench = language === 'fr';
+    const touch = isTouch();
+    const hint = isFrench
+        ? (touch ? 'toucher pour afficher les détails' : 'cliquer pour afficher les détails')
+        : (touch ? 'tap to show more details' : 'click to show more details');
     const [filter, setFilter] = useState<'all' | 'vision' | 'audio' | 'llm'>('all');
 
     // Other sections (e.g. the tech ticker) can open a specific project.
@@ -69,9 +74,7 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                             alt="NVIDIA Nemotron fine-tuning project preview"
                             width="100%"
                         />
-                        <span className="project-image-hint">
-                            {isFrench ? 'cliquer pour afficher les détails' : 'click to show more details'}
-                        </span>
+                        <span className="project-image-hint">{hint}</span>
                     </button>
 
                     <button
@@ -122,9 +125,7 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                             alt="Motion Detection Estimation and Tracking on Images preview"
                             width="100%"
                         />
-                        <span className="project-image-hint">
-                            click to show more details
-                        </span>
+                        <span className="project-image-hint">{hint}</span>
                     </button>
 
                     <button
@@ -173,9 +174,7 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                             alt="YOLO26 pothole and crack detection preview"
                             width="100%"
                         />
-                        <span className="project-image-hint">
-                            click to show more details
-                        </span>
+                        <span className="project-image-hint">{hint}</span>
                     </button>
 
                     <button
@@ -224,9 +223,7 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                             alt="Retrieval-Augmented Generation System for French Labor Code preview"
                             width="100%"
                         />
-                        <span className="project-image-hint">
-                            click to show more details
-                        </span>
+                        <span className="project-image-hint">{hint}</span>
                     </button>
 
                     <button
@@ -283,9 +280,7 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                             alt="Singing voice separation with Deep U-Net preview"
                             width="100%"
                         />
-                        <span className="project-image-hint">
-                            click to show more details
-                        </span>
+                        <span className="project-image-hint">{hint}</span>
                     </button>
 
                     <button
@@ -334,9 +329,7 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                             alt="Matcha-TTS Implementation Analysis preview"
                             width="100%"
                         />
-                        <span className="project-image-hint">
-                            click to show more details
-                        </span>
+                        <span className="project-image-hint">{hint}</span>
                     </button>
 
                     <button
@@ -385,9 +378,7 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                             alt="Forest acoustic learning preview"
                             width="100%"
                         />
-                        <span className="project-image-hint">
-                            click to show more details
-                        </span>
+                        <span className="project-image-hint">{hint}</span>
                     </button>
 
                     <button

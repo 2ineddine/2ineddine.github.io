@@ -4,6 +4,7 @@ import { faBriefcase, faGraduationCap } from "@fortawesome/free-solid-svg-icons"
 import orangeLogo from "../assets/images/orange.png";
 import sorbonneLogo from "../assets/images/sorbonne.png";
 import lyon1Logo from "../assets/images/lyon1.jpg";
+import { isTouch } from "../data/site";
 import "../assets/styles/Journey.scss";
 
 type L2 = { en: string; fr: string };
@@ -109,8 +110,8 @@ function Timeline({ language = "en" }: { language?: "en" | "fr" }) {
       <h1>{fr ? "Parcours" : "Journey"}</h1>
       <p className="skills-lead">
         {fr
-          ? "Expériences au-dessus de la ligne, études en dessous. Cliquez une période pour y aller, cliquez une compétence pour la retrouver sur la carte."
-          : "Work above the line, studies below. Click a span to jump to it, click a skill to find it on the competency map."}
+          ? `Expériences au-dessus de la ligne, études en dessous. ${isTouch() ? "Touchez" : "Cliquez"} une période pour y aller, ${isTouch() ? "touchez" : "cliquez"} une compétence pour la retrouver sur la carte.`
+          : `Work above the line, studies below. ${isTouch() ? "Tap" : "Click"} a span to jump to it, ${isTouch() ? "tap" : "click"} a skill to find it on the competency map.`}
       </p>
 
       {/* ---------- Rail ---------- */}

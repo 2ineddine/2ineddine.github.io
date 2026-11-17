@@ -19,6 +19,7 @@ import ScrollProgress from "./components/ScrollProgress";
 import './index.scss';
 import './assets/styles/theme.scss'; // keep last so it overrides component styles
 import './assets/styles/polish.scss';
+import './assets/styles/mobile.scss';
 
 const read = (k: string): string | null => { try { return localStorage.getItem(k); } catch { return null; } };
 const write = (k: string, v: string) => { try { localStorage.setItem(k, v); } catch { /* private mode */ } };

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDocker } from "@fortawesome/free-brands-svg-icons";
 import { faBrain, faRobot, faWaveSquare, faEye } from "@fortawesome/free-solid-svg-icons";
 import NeuralGraph, { GLink, GNode } from "./NeuralGraph";
+import { isTouch } from "../data/site";
 import "../assets/styles/Expertise.scss";
 
 type L2 = { en: string; fr: string };
@@ -140,9 +141,9 @@ function Expertise({ language = "en" }: { language?: "en" | "fr" }) {
       <div className="skills-container">
         <h1>{fr ? "Carte des compétences" : "Competency Map"}</h1>
         <p className="skills-lead">
-          {fr
-            ? "Cinq domaines, un seul réseau. Survolez un nœud pour voir ce qu'il relie, déplacez-le, cliquez pour explorer."
-            : "Five domains, one network. Hover a node to see what it connects, drag it around, click to explore."}
+          {isTouch()
+            ? (fr ? "Cinq domaines, un seul réseau. Touchez un nœud pour voir ce qu'il relie, puis faites-le glisser pour jouer." : "Five domains, one network. Tap a node to see what it connects, then drag it to play.")
+            : (fr ? "Cinq domaines, un seul réseau. Survolez un nœud pour voir ce qu'il relie, déplacez-le, cliquez pour explorer." : "Five domains, one network. Hover a node to see what it connects, drag it around, click to explore.")}
         </p>
 
         <div className="gx">

@@ -1,0 +1,88 @@
+/* ============================================================
+   Mobile & tablet adaptation (loaded last)
+   Breakpoints: <1200 hamburger nav · <=900 tablet/phone layout · <=640 phone
+   ============================================================ */
+button, a { -webkit-tap-highlight-color: transparent; }
+.MuiAppBar-root.navbar-fixed-top { top: calc(14px + env(safe-area-inset-top, 0px)) !important; }
+@supports (height: 100svh) { .about-section { min-height: 100svh; } }
+
+/* ---------- Nav bar: brand + theme button (compact layouts) ---------- */
+.nav-brand { display: inline-flex; align-items: center; gap: 10px; background: none; border: 0; cursor: pointer; padding: 0 4px; font-family: var(--font-body); }
+.nav-brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--yellow); color: var(--on-accent); font-weight: 800; font-size: .8rem; letter-spacing: -.02em; }
+.nav-brand-name { font-weight: 800; font-size: 1rem; color: var(--text); letter-spacing: -.02em; }
+.nav-icon-btn { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: transparent; color: var(--text); font-size: 1.05rem; cursor: pointer; margin-right: 8px; font-family: var(--font-body); display: inline-grid; place-items: center; }
+.nav-icon-btn:active { background: var(--yellow); color: var(--on-accent); }
+.navigation-bar .lang-btn { margin-right: 0 !important; }
+@media (min-width: 1200px) { .nav-brand, .nav-theme-btn { display: none; } }
+@media (max-width: 1199px) {
+  .theme-toggle { display: none !important; } /* the nav bar has the theme switch here */
+  .navigation-bar .lang-btn { margin-left: 0; }
+}
+
+/* ---------- Drawer ---------- */
+.nav-drawer { background: var(--bg) !important; color: var(--text) !important; border-right: 1px solid var(--line); box-shadow: 0 0 60px rgba(0, 0, 0, .5) !important;
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px) !important; background-size: 40px 40px !important; }
+.nav-drawer-inner { display: flex; flex-direction: column; height: 100%; padding-bottom: env(safe-area-inset-bottom, 0px); }
+.nav-drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; }
+.nav-drawer-head .nav-icon-btn { margin: 0; }
+.nav-drawer-list { padding: 8px 0 !important; flex: 1; overflow: auto; }
+.nav-drawer-list .MuiListItemButton-root { padding: 16px 24px; border-bottom: 1px solid var(--line); gap: 18px; position: relative; }
+.nav-drawer-list .MuiListItemButton-root.on::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 4px; border-radius: 0 3px 3px 0; background: var(--yellow); }
+.nav-drawer-list .MuiListItemText-primary { font-family: var(--font-body) !important; font-size: 1.45rem; letter-spacing: -.03em; color: var(--text); }
+.nav-drawer-list .on .MuiListItemText-primary { font-weight: 800; }
+.nav-drawer-n { font-size: .68rem; letter-spacing: .14em; color: var(--muted); font-weight: 800; min-width: 22px; }
+.nav-drawer-foot { display: flex; gap: 10px; padding: 18px 20px 22px; }
+.nav-drawer-chip { flex: 1; padding: 13px 12px; border-radius: 10px; border: 1px solid var(--line); background: transparent; color: var(--text); font-family: var(--font-body); font-size: .85rem; font-weight: 800; cursor: pointer; }
+.nav-drawer-chip:active { background: var(--yellow); color: var(--on-accent); }
+
+/* ---------- Graphs on touch: never trap vertical scrolling ---------- */
+@media (pointer: coarse) { .ng-node { touch-action: pan-y; } }
+
+/* ---------- Tablet / phone ---------- */
+@media (max-width: 900px) {
+  .projects-container, .skills-container, .items-container, .history-section, .education-section,
+  .certifications-section, .languages-container, .programming-languages, .contact_wrapper, .gh {
+    padding-top: 56px !important; padding-bottom: 8px !important;
+  }
+  .main-container h2, .main-container h1:not(.about-section h1) { font-size: clamp(2rem, 9vw, 2.8rem) !important; }
+  .main-container h2::before, .main-container h1:not(.about-section h1)::before { margin-bottom: 16px; }
+  .skills-lead { margin-bottom: 20px; }
+
+  /* Swipeable carousels instead of very long stacks */
+  .projects-container .projects-grid, .certifications-grid {
+    display: flex !important; overflow-x: auto; gap: 14px; align-items: flex-start;
+    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    margin-inline: -5vw; padding: 4px 5vw 18px; scroll-padding-inline: 5vw;
+  }
+  .projects-grid::-webkit-scrollbar, .certifications-grid::-webkit-scrollbar { display: none; }
+  .projects-grid > .project, .certifications-grid > .certification-card { flex: 0 0 84%; max-width: 440px; scroll-snap-align: start; }
+  .certifications-grid > .certification-card { height: auto; align-self: stretch; }
+  .project-featured-image { height: 210px !important; }
+  .pj-filters { margin-bottom: 18px; }
+  .pj-filters + .projects-grid::after, .certifications-grid::after { content: ''; flex: 0 0 1px; }
+
+  .about-section .image-wrapper img { width: 62vw !important; max-width: 320px; }
+  .about-section .content .hero-cta .btn { padding: 14px 20px; }
+  .ft { margin-top: 56px; padding-top: 40px; }
+}
+
+/* ---------- Phone ---------- */
+@media (max-width: 640px) {
+  .form-flex { flex-direction: column !important; gap: 16px !important; }
+  .jr-seg-label { font-size: .66rem; }
+
+  /* long hub names must wrap instead of being clipped by the graph box */
+  .ng-node.hub .ng-label { white-space: normal; max-width: 92px; text-align: center; line-height: 1.15; padding: 4px 6px; }
+
+  .ft-mark { white-space: normal; font-size: 17.5vw; line-height: .9; letter-spacing: -.055em; margin: 36px 0 22px; }
+  .ft-links a { flex: 1; justify-content: center; }
+  .ft-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .ft-bottom button { margin-right: 0; }
+  .copy-email { max-width: 100%; }
+  .copy-email span { overflow: hidden; text-overflow: ellipsis; }
+  .gh-stats strong { font-size: 1.7rem; }
+}
+@media (max-width: 380px) {
+  .nav-brand-name { display: none; }
+  .hero-stats strong { font-size: 1.4rem; }
+}

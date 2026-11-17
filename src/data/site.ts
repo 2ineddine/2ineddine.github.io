@@ -30,3 +30,6 @@ export async function copyEmail(): Promise<boolean> {
   try { await navigator.clipboard.writeText(EMAIL); return true; } catch { return false; }
 }
 
+
+/** True on phones/tablets (coarse primary pointer) — used to say "tap" instead of "click"/"hover". */
+export const isTouch = () => typeof window !== "undefined" && !!window.matchMedia?.("(pointer: coarse)").matches;

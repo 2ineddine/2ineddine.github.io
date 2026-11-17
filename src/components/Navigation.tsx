@@ -3,18 +3,15 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
-import ListIcon from '@mui/icons-material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 
-const drawerWidth = 240;
 
 function Navigation({ parentToChild, modeChange, language = 'en', onLanguageChange }: any) {
   const navItems = language === 'fr'
@@ -92,19 +89,34 @@ function Navigation({ parentToChild, modeChange, language = 'en', onLanguageChan
     }
   };
 
+  const fr = language === 'fr';
+  const mode = parentToChild?.mode;
+  const closeAnd = (fn: () => void) => () => { setMobileOpen(false); setTimeout(fn, 250); };
+
   const drawer = (
-    <Box className="navigation-bar-responsive" onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <p className="mobile-menu-top"><ListIcon/>Menu</p>
-      <Divider />
-      <List>
-        {navItems.map((item) => (
+    <Box className="nav-drawer-inner" role="presentation">
+      <div className="nav-drawer-head">
+        <span className="nav-brand-mark">ZB</span>
+        <button className="nav-icon-btn" aria-label={fr ? 'Fermer le menu' : 'Close menu'} onClick={handleDrawerToggle}>✕</button>
+      </div>
+      <List className="nav-drawer-list">
+        {navItems.map((item, i) => (
           <ListItem key={item[0]} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }} onClick={() => scrollToSection(item[1])}>
+            <ListItemButton className={current === item[1] ? 'on' : ''} onClick={closeAnd(() => scrollToSection(item[1]))}>
+              <span className="nav-drawer-n">{String(i + 1).padStart(2, '0')}</span>
               <ListItemText primary={item[0]} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
+      <div className="nav-drawer-foot">
+        <button className="nav-drawer-chip" onClick={(e) => modeChange?.({ x: e.clientX, y: e.clientY })}>
+          {mode === 'dark' ? '☀ ' : '☽ '}{mode === 'dark' ? (fr ? 'Mode clair' : 'Light mode') : fr ? 'Mode sombre' : 'Dark mode'}
+        </button>
+        <button className="nav-drawer-chip" onClick={() => onLanguageChange?.(language === 'en' ? 'fr' : 'en')}>
+          {language === 'en' ? 'Français' : 'English'}
+        </button>
+      </div>
     </Box>
   );
 
@@ -115,20 +127,28 @@ function Navigation({ parentToChild, modeChange, language = 'en', onLanguageChan
         <Toolbar className='navigation-bar'>
           <IconButton
             color="inherit"
-            aria-label="open drawer"
+            aria-label={fr ? 'Ouvrir le menu' : 'Open menu'}
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 1, display: { lg: 'none' } }}
           >
             <MenuIcon />
           </IconButton>
-          <Box sx={{ display: { xs: 'none', sm: 'block' }, flexGrow: 1 }}>
+          <button className="nav-brand" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Zineddine Bouhadjira">
+            <span className="nav-brand-mark">ZB</span>
+            <span className="nav-brand-name">Zineddine</span>
+          </button>
+          <Box sx={{ display: { xs: 'none', lg: 'block' }, flexGrow: 1 }}>
             {navItems.filter((i) => i[1] !== 'contact').map((item) => (
-              <Button key={item[0]} className={current === item[1] ? 'nav-link active' : 'nav-link'} onClick={() => scrollToSection(item[1])} sx={{ display: { sm: 'inline-flex' } }}>
+              <Button key={item[0]} className={current === item[1] ? 'nav-link active' : 'nav-link'} onClick={() => scrollToSection(item[1])} sx={{ display: { lg: 'inline-flex' } }}>
                 {item[0]}
               </Button>
             ))}
           </Box>
+          <Box sx={{ flexGrow: 1, display: { lg: 'none' } }} />
+          <button className="nav-icon-btn nav-theme-btn" aria-label={fr ? 'Changer de thème' : 'Toggle theme'} onClick={(e) => modeChange?.({ x: e.clientX, y: e.clientY })}>
+            {mode === 'dark' ? '☀' : '☽'}
+          </button>
           <Button
             className="lang-btn"
             onClick={() => onLanguageChange?.(language === 'en' ? 'fr' : 'en')}
@@ -137,22 +157,23 @@ function Navigation({ parentToChild, modeChange, language = 'en', onLanguageChan
             {language === 'en' ? 'FR' : 'EN'}
           </Button>
           <Button className="nav-cta" onClick={() => scrollToSection('contact')} sx={{ display: { xs: 'none', sm: 'inline-flex' } }}>
-            {language === 'fr' ? 'Contact ↗' : 'Contact ↗'}
+            Contact ↗
           </Button>
         </Toolbar>
       </AppBar>
       <nav>
         <Drawer
           variant="temporary"
+          anchor="left"
           open={mobileOpen}
           onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
+          container={() => document.querySelector('.main-container') as HTMLElement}
+          ModalProps={{ keepMounted: true }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: 'block', lg: 'none' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 'min(86vw, 360px)' },
           }}
+          PaperProps={{ className: 'nav-drawer' }}
         >
           {drawer}
         </Drawer>
