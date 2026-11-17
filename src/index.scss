@@ -1,4 +1,10 @@
 
+/* ---- Global baseline (was provided by MUI <CssBaseline/>; the layout relies on these exact values) ---- */
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; box-sizing: border-box; -webkit-text-size-adjust: 100%; }
+*, *::before, *::after { box-sizing: inherit; }
+strong, b { font-weight: 700; }
+body { margin: 0; color: rgba(0, 0, 0, 0.87); font-weight: 400; font-size: 1rem; line-height: 1.5; letter-spacing: 0.00938em; background-color: #fff; }
+
 :root {
   --font-body: 'Manrope', sans-serif;
   --font-heading: 'Space Grotesk', sans-serif;
@@ -43,35 +49,8 @@ h1, h2, h3, h4, h5 {
   letter-spacing: -0.02em;
 }
 
-.navigation-bar {
-  justify-content: space-between;
-  background-color: #0d1116;
-
-  button {
-    font-size: 1.1rem;
-    font-family: var(--font-body);
-    text-transform: initial;
-    padding: 6px 10px;
-  }
-
-  svg {
-    cursor: pointer;
-  }
-}
-
 .dark-mode {
   background-color: #000;
-
-  .navigation-bar {
-    background-color: #000;
-  }
-}
-
-.navigation-bar-responsive {
-  span, p {
-    color: #0d1116;
-    font-family: var(--font-body);
-  }
 }
 
 .container {
@@ -94,14 +73,6 @@ h1, h2, h3, h4, h5 {
   }
 }
 
-.mobile-menu-top {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  font-weight: bold;
-}
-
 .items-container {
   padding: 5% 10%;
   text-align: left;
@@ -113,10 +84,6 @@ h1, h2, h3, h4, h5 {
 .light-mode {
   background-color: #f8f9fa;
 
-  .navigation-bar {
-    background-color: #f8f9fa;
-  }
-
   p, a, h1, h2, h3, h4, h5, label, button {
     color: #0d1116;
   }
@@ -124,14 +91,6 @@ h1, h2, h3, h4, h5 {
   a:hover {
     color: #5000ca;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
-  }
-
-  .navigation-bar svg {
-    color: #0d1116;
-  }
-
-  .about-section {
-    background-image: url("./assets/images/bg-light.png");
   }
 
   .skills-container svg {

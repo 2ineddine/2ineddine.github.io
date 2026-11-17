@@ -24,6 +24,8 @@ function GithubActivity({ language = "en" }: { language?: "en" | "fr" }) {
   const [tip, setTip] = useState<{ x: number; y: number; day: Day } | null>(null);
   const scroller = useRef<HTMLDivElement>(null);
   const box = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
     const cached = readCache();
@@ -39,6 +41,17 @@ function GithubActivity({ language = "en" }: { language?: "en" | "fr" }) {
       .catch((e) => { if (e.name !== "AbortError" && !cached) setState("error"); });
     return () => ctl.abort();
   }, []);
+
+  // One-off left-to-right reveal, played only when the heatmap scrolls into view.
+  const hasData = !!data;
+  useEffect(() => {
+    const el = mapRef.current;
+    if (!el || revealed) return;
+    if (typeof IntersectionObserver === "undefined") { setRevealed(true); return; }
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setRevealed(true); io.disconnect(); } }, { threshold: 0.25 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [hasData, revealed]);
 
   // Start scrolled to the most recent weeks on narrow screens.
   useEffect(() => { const s = scroller.current; if (s) s.scrollLeft = s.scrollWidth; }, [data]);
@@ -89,13 +102,13 @@ function GithubActivity({ language = "en" }: { language?: "en" | "fr" }) {
   const label = (day: Day) => `${day.count} ${day.count === 1 ? (fr ? "contribution" : "contribution") : fr ? "contributions" : "contributions"} · ${fmtDay(day.date, language)}`;
 
   return (
-    <section className="gh" id="activity">
+    <section className="gh">
       <h1>{fr ? "Activité GitHub" : "GitHub Activity"}</h1>
       <p className="skills-lead">
         {fr ? "Mon historique de code en direct : chaque case est un jour, plus elle est vive, plus j'ai contribué." : "My coding history, live: every square is a day — the brighter it is, the more I shipped."}
       </p>
 
-      <div className="gh-card" ref={box}>
+      <div className={`gh-card${state === "loading" ? " is-loading" : ""}`} ref={box}>
         <div className="gh-head">
           <a className="gh-user" href={GITHUB} target="_blank" rel="noreferrer">@{GITHUB_USER} ↗</a>
           <span className="gh-live"><i /> {state === "ok" && data ? (fr ? "En direct · mis à jour " : "Live · updated ") + new Date(data.fetched).toLocaleDateString(fr ? "fr-FR" : "en-GB", { day: "numeric", month: "short" }) : state === "loading" ? (fr ? "Chargement…" : "Loading…") : fr ? "Indisponible" : "Unavailable"}</span>
@@ -121,7 +134,7 @@ function GithubActivity({ language = "en" }: { language?: "en" | "fr" }) {
             </div>
 
             <div className="gh-scroll" ref={scroller}>
-              <div className="gh-map" style={{ ["--cols" as any]: weeks.length }} onPointerLeave={() => setTip(null)}>
+              <div className={`gh-map${revealed ? " in" : ""}`} ref={mapRef} style={{ ["--cols" as any]: weeks.length }} onPointerLeave={() => setTip(null)}>
                 <div className="gh-months">
                   {months.map((m) => <span key={m.col + m.label} style={{ gridColumn: m.col + 1 }}>{m.label}</span>)}
                 </div>
@@ -132,7 +145,7 @@ function GithubActivity({ language = "en" }: { language?: "en" | "fr" }) {
                         <button
                           key={day.date}
                           className={`gh-cell l${day.level}`}
-                          style={{ gridColumn: ci + 1, gridRow: ri + 1, animationDelay: `${ci * 14}ms` }}
+                          style={{ gridColumn: ci + 1, gridRow: ri + 1 }}
                           aria-label={label(day)}
                           onPointerEnter={(e) => showTip(e, day)}
                           onFocus={(e) => showTip(e, day)}

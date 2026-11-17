@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import { GitHubIcon, LinkedInIcon } from "./icons";
 import { GITHUB, LINKEDIN } from "../data/site";
 import CopyEmail from "./CopyEmail";
 import "../assets/styles/Footer.scss";

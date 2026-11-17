@@ -10,7 +10,7 @@ function Languages({ language = 'en' }: { language?: 'en' | 'fr' }) {
   const isFrench = language === 'fr';
 
   return (
-    <section className="languages-container" id="languages">
+    <section className="languages-container">
       <h1>{isFrench ? 'Langues' : 'Languages'}</h1>
 
       <div className="languages-grid">

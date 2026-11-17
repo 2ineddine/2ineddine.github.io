@@ -17,6 +17,8 @@
 .reveal { opacity: 0; transform: translateY(36px); transition: opacity .8s cubic-bezier(.2, .7, .2, 1), transform .8s cubic-bezier(.2, .7, .2, 1); }
 .reveal.is-in { opacity: 1; transform: none; }
 @keyframes rise { from { opacity: 0; transform: translateY(26px); } }
+/* transform-only variant: the text is visible from the very first paint (better LCP) and still glides up */
+@keyframes rise-t { from { transform: translateY(22px); } }
 @media (prefers-reduced-motion: no-preference) {
   .reveal.is-in .projects-grid > *, .reveal.is-in .certifications-grid > *, .reveal.is-in .jr-card, .reveal.is-in .gx > * {
     animation: rise .7s cubic-bezier(.2, .7, .2, 1) backwards;
@@ -26,8 +28,9 @@
   }
   .reveal.is-in .gx > *:nth-child(2) { animation-delay: .12s; }
   .about-section .content > * { animation: rise .8s cubic-bezier(.2, .7, .2, 1) backwards; }
-  @for $i from 1 through 8 { .about-section .content > *:nth-child(#{$i}) { animation-delay: #{$i * 80}ms; } }
-  .about-section .image-wrapper { animation: rise 1s .25s cubic-bezier(.2, .7, .2, 1) backwards; }
+  .about-section .content > h1, .about-section .content > .role, .about-section .content > .vision-text { animation-name: rise-t; }
+  @for $i from 1 through 8 { .about-section .content > *:nth-child(#{$i}) { animation-delay: #{$i * 70}ms; } }
+  .about-section .image-wrapper { animation: rise-t 1s .15s cubic-bezier(.2, .7, .2, 1) backwards; }
 }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
 
@@ -36,13 +39,13 @@
 ::view-transition-old(root) { z-index: 1; }
 ::view-transition-new(root) { z-index: 2; }
 
-/* ---------- Nav: active link ---------- */
-.navigation-bar .nav-link { position: relative; }
-.navigation-bar .nav-link::after { content: ''; position: absolute; left: 50%; bottom: 4px; width: 0; height: 3px; border-radius: 2px; background: var(--yellow); transform: translateX(-50%); transition: width .3s ease; }
-.navigation-bar .nav-link.active::after { width: 18px; }
-
 /* ---------- Hero ---------- */
-.about-section::after { left: var(--gx, 78%) !important; top: var(--gy, 30%) !important; right: auto !important; transform: translate(-50%, -50%); transition: left .8s cubic-bezier(.2, .7, .2, 1), top .8s cubic-bezier(.2, .7, .2, 1); }
+/* the glow rests at 78% / 30% and follows the cursor through a compositor-only transform */
+.about-section::after { left: 78% !important; top: 30% !important; right: auto !important; transform: translate3d(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px)), 0); transition: transform .8s cubic-bezier(.2, .7, .2, 1); will-change: transform; }
+/* rotating word: an invisible copy with the longest word reserves the tallest layout (no layout shift) */
+.vision-text { display: grid; }
+.vision-text > .vt-live, .vision-text > .vt-sizer { grid-area: 1 / 1; }
+.vision-text > .vt-sizer { visibility: hidden; pointer-events: none; user-select: none; }
 .rot { display: inline-block; color: var(--text); font-weight: 800; padding: 0 .35em; border-radius: 6px; background: color-mix(in srgb, var(--yellow) 28%, transparent); animation: rot-in .5s cubic-bezier(.2, .8, .2, 1) both; }
 @keyframes rot-in { from { opacity: 0; transform: translateY(.6em); } }
 .hero-stats { grid-template-columns: repeat(4, auto) !important; max-width: 640px !important; }
@@ -87,3 +90,11 @@
 .copy-email:hover { border-color: var(--yellow); transform: translateY(-2px); }
 .main-container .copy-email { color: var(--text); }
 .copy-email.in-contact { margin: 6px 0 4px; }
+
+/* ---------- Inline SVG icons (replace MUI SvgIcon + Font Awesome runtime) ---------- */
+.ic { display: inline-block; flex-shrink: 0; width: 1em; height: 1em; font-size: 1.5rem; fill: currentColor; user-select: none; }
+.fa-i { display: inline-block; overflow: visible; vertical-align: -.125em; flex-shrink: 0; }
+
+/* ---------- Lazy sections: reserve roughly the final height until the section mounts ---------- */
+.lazy-ph { min-height: var(--mh, 600px); }
+@media (max-width: 900px) { .lazy-ph { min-height: var(--mhm, 500px); } }

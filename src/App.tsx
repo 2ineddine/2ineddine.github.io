@@ -1,25 +1,39 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { flushSync } from "react-dom";
-import {
-  Main,
-  Timeline,
-  Languages,
-  Expertise,
-  Project,
-  Certifications,
-  ProgrammingLanguages,
-  Contact,
-  Navigation,
-  Footer,
-} from "./components";
-import Reveal from "./components/Reveal";
+import Main from "./components/Main";
+import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
 import Marquee from "./components/Marquee";
-import GithubActivity from "./components/GithubActivity";
 import ScrollProgress from "./components/ScrollProgress";
+import LazySection from "./components/LazySection";
+import { goTo } from "./data/site";
+import { mountRemainingWhenIdle } from "./lazy/registry";
+// Component stylesheets are imported here (not only from inside the lazy chunks) so they stay in the MAIN css file, ahead of theme.scss.
+// That keeps the cascade identical to before and means no section's styles can arrive after its markup.
+import './assets/styles/NeuralGraph.scss';
+import './assets/styles/Expertise.scss';
+import './assets/styles/Journey.scss';
+import './assets/styles/Languages.scss';
+import './assets/styles/Project.scss';
+import './assets/styles/Certifications.scss';
+import './assets/styles/Contact.scss';
+import './assets/styles/GithubActivity.scss';
 import './index.scss';
 import './assets/styles/theme.scss'; // keep last so it overrides component styles
 import './assets/styles/polish.scss';
 import './assets/styles/mobile.scss';
+
+// Everything below the fold is code-split. `webpackPrefetch` fetches each chunk at idle priority after the page has loaded,
+// so by the time a section scrolls into view its code is already in the cache (and it never competes with the first paint).
+const loadProject = () => import(/* webpackPrefetch: true */ "./components/Project");
+const loadActivity = () => import(/* webpackPrefetch: true */ "./components/GithubActivity");
+const loadExpertise = () => import(/* webpackPrefetch: true */ "./components/Expertise");
+const loadTimeline = () => import(/* webpackPrefetch: true */ "./components/Timeline");
+const loadLanguages = () => import(/* webpackPrefetch: true */ "./components/Languages");
+const loadCertifications = () => import(/* webpackPrefetch: true */ "./components/Certifications");
+const loadProgramming = () => import(/* webpackPrefetch: true */ "./components/ProgrammingLanguages");
+// The contact form is the only section that needs MUI (~50 kB): load it strictly on demand — when the visitor gets near it or jumps to it.
+const loadContact = () => import("./components/Contact");
 
 const read = (k: string): string | null => { try { return localStorage.getItem(k); } catch { return null; } };
 const write = (k: string, v: string) => { try { localStorage.setItem(k, v); } catch { /* private mode */ } };
@@ -73,10 +87,11 @@ function App() {
     }, []);
 
     useEffect(() => { window.scrollTo({top: 0, left: 0, behavior: 'smooth'}); }, []);
+    useEffect(() => mountRemainingWhenIdle(6000), []);
 
     return (
     <div className={`main-container ${mode === 'dark' ? 'dark-mode' : 'light-mode'}`}>
-        <a className="skip-link" href="#projects" onClick={(e) => { e.preventDefault(); document.getElementById('projects')?.scrollIntoView(); }}>
+        <a className="skip-link" href="#projects" onClick={(e) => { e.preventDefault(); goTo('projects'); }}>
             {language === 'fr' ? 'Aller au contenu' : 'Skip to content'}
         </a>
         <ScrollProgress />
@@ -89,14 +104,14 @@ function App() {
         <main>
             <Main language={language} />
             <Marquee language={language} />
-            <Reveal><Project language={language} /></Reveal>
-            <Reveal><GithubActivity language={language} /></Reveal>
-            <Reveal><Expertise language={language} /></Reveal>
-            <Reveal><Timeline language={language} /></Reveal>
-            <Reveal><Languages language={language} /></Reveal>
-            <Reveal><Certifications language={language} /></Reveal>
-            <Reveal><ProgrammingLanguages language={language} /></Reveal>
-            <Reveal><Contact language={language} /></Reveal>
+            <LazySection id="projects" loader={loadProject} language={language} minHeight={2222} minHeightMobile={614} />
+            <LazySection id="activity" loader={loadActivity} language={language} minHeight={1026} minHeightMobile={1018} />
+            <LazySection id="expertise" loader={loadExpertise} language={language} minHeight={992} minHeightMobile={1437} />
+            <LazySection id="history" loader={loadTimeline} language={language} minHeight={1553} minHeightMobile={1684} />
+            <LazySection id="languages" loader={loadLanguages} language={language} minHeight={410} minHeightMobile={354} />
+            <LazySection id="certifications" loader={loadCertifications} language={language} minHeight={1249} minHeightMobile={495} />
+            <LazySection id="programming-languages" loader={loadProgramming} language={language} minHeight={900} minHeightMobile={1204} />
+            <LazySection id="contact" loader={loadContact} language={language} minHeight={1013} minHeightMobile={834} idleMount={false} />
         </main>
         <Footer language={language} />
 

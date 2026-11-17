@@ -99,7 +99,7 @@ function Contact({ language = 'en' }: { language?: 'en' | 'fr' }) {
   };
 
   return (
-    <div id="contact">
+    <div>
       <div className="items-container">
         <div className="contact_wrapper">
           <h1>{copy.title}</h1>

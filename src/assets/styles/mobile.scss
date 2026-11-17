@@ -3,37 +3,10 @@
    Breakpoints: <1200 hamburger nav · <=900 tablet/phone layout · <=640 phone
    ============================================================ */
 button, a { -webkit-tap-highlight-color: transparent; }
-.MuiAppBar-root.navbar-fixed-top { top: calc(14px + env(safe-area-inset-top, 0px)) !important; }
 @supports (height: 100svh) { .about-section { min-height: 100svh; } }
 
-/* ---------- Nav bar: brand + theme button (compact layouts) ---------- */
-.nav-brand { display: inline-flex; align-items: center; gap: 10px; background: none; border: 0; cursor: pointer; padding: 0 4px; font-family: var(--font-body); }
-.nav-brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--yellow); color: var(--on-accent); font-weight: 800; font-size: .8rem; letter-spacing: -.02em; }
-.nav-brand-name { font-weight: 800; font-size: 1rem; color: var(--text); letter-spacing: -.02em; }
-.nav-icon-btn { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: transparent; color: var(--text); font-size: 1.05rem; cursor: pointer; margin-right: 8px; font-family: var(--font-body); display: inline-grid; place-items: center; }
-.nav-icon-btn:active { background: var(--yellow); color: var(--on-accent); }
-.navigation-bar .lang-btn { margin-right: 0 !important; }
-@media (min-width: 1200px) { .nav-brand, .nav-theme-btn { display: none; } }
-@media (max-width: 1199px) {
-  .theme-toggle { display: none !important; } /* the nav bar has the theme switch here */
-  .navigation-bar .lang-btn { margin-left: 0; }
-}
-
-/* ---------- Drawer ---------- */
-.nav-drawer { background: var(--bg) !important; color: var(--text) !important; border-right: 1px solid var(--line); box-shadow: 0 0 60px rgba(0, 0, 0, .5) !important;
-  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px) !important; background-size: 40px 40px !important; }
-.nav-drawer-inner { display: flex; flex-direction: column; height: 100%; padding-bottom: env(safe-area-inset-bottom, 0px); }
-.nav-drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; }
-.nav-drawer-head .nav-icon-btn { margin: 0; }
-.nav-drawer-list { padding: 8px 0 !important; flex: 1; overflow: auto; }
-.nav-drawer-list .MuiListItemButton-root { padding: 16px 24px; border-bottom: 1px solid var(--line); gap: 18px; position: relative; }
-.nav-drawer-list .MuiListItemButton-root.on::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 4px; border-radius: 0 3px 3px 0; background: var(--yellow); }
-.nav-drawer-list .MuiListItemText-primary { font-family: var(--font-body) !important; font-size: 1.45rem; letter-spacing: -.03em; color: var(--text); }
-.nav-drawer-list .on .MuiListItemText-primary { font-weight: 800; }
-.nav-drawer-n { font-size: .68rem; letter-spacing: .14em; color: var(--muted); font-weight: 800; min-width: 22px; }
-.nav-drawer-foot { display: flex; gap: 10px; padding: 18px 20px 22px; }
-.nav-drawer-chip { flex: 1; padding: 13px 12px; border-radius: 10px; border: 1px solid var(--line); background: transparent; color: var(--text); font-family: var(--font-body); font-size: .85rem; font-weight: 800; cursor: pointer; }
-.nav-drawer-chip:active { background: var(--yellow); color: var(--on-accent); }
+/* Below 1200px the nav bar carries the theme switch, so the floating toggle is hidden (nav styles live in nav.scss) */
+@media (max-width: 1199px) { .theme-toggle { display: none !important; } }
 
 /* ---------- Graphs on touch: never trap vertical scrolling ---------- */
 @media (pointer: coarse) { .ng-node { touch-action: pan-y; } }

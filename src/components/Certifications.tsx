@@ -1,88 +1,19 @@
 import React from "react";
 import '../assets/styles/Certifications.scss';
-import googleLogo from '../assets/images/google.png';
-import ibmLogo from '../assets/images/ibm.png';
-import dukeLogo from '../assets/images/duke.png';
-import courseraLogo from '../assets/images/coursera.png';
+import { logos } from '../assets/images';
+import { CERTS, CERT_BASE_URL } from '../data/certs';
 
-const CERTIFICATE_BASE_URL = 'https://www.coursera.org/account/accomplishments/verify/';
-
-const certifications = [
-  {
-    title: 'Machine Learning Operations (MLOps) with Vertex AI: Manage Features',
-    issuer: 'Google',
-    issued: 'July 2026',
-    credentialId: 'X2UQQBTMLSHP',
-    logo: googleLogo,
-  },
-  {
-    title: 'Fundamentals of AI Agents Using RAG and LangChain',
-    issuer: 'IBM',
-    issued: 'July 2026',
-    credentialId: 'CLINZODFTHG2',
-    logo: ibmLogo,
-  },
-  {
-    title: 'Natural Language Processing on Google Cloud',
-    issuer: 'Google',
-    issued: 'July 2026',
-    credentialId: 'MWPUMCLUJ0XV',
-    logo: googleLogo,
-  },
-  {
-    title: 'Introduction to Vertex Forecasting and Time Series in Practice',
-    issuer: 'Google',
-    issued: 'July 2026',
-    credentialId: 'BLWYVDU4DY76',
-    logo: googleLogo,
-  },
-  {
-    title: 'DevOps, DataOps, MLOps',
-    issuer: 'Duke University',
-    issued: 'July 2026',
-    credentialId: '42HBT896DK5O',
-    logo: dukeLogo,
-  },
-  {
-    title: 'Agentic AI with LangChain and LangGraph',
-    issuer: 'IBM',
-    issued: 'July 2026',
-    credentialId: 'MYGUJBPX90J1',
-    logo: ibmLogo,
-  },
-  {
-    title: 'Databricks Machine Learning Fundamentals',
-    issuer: 'Coursera',
-    issued: 'July 2026',
-    credentialId: 'UZW8PR7095QD',
-    logo: courseraLogo,
-  },
-  {
-    title: 'Generative AI and LLMs: Architecture and Data Preparation',
-    issuer: 'IBM',
-    issued: 'July 2026',
-    credentialId: 'YCI1IJ94MARX',
-    logo: ibmLogo,
-  },
-  {
-    title: 'Agentic AI with LangGraph, CrewAI, AutoGen and BeeAI',
-    issuer: 'IBM',
-    issued: 'July 2026',
-    credentialId: 'XLPJSMUM5M9V',
-    logo: ibmLogo,
-  },
-].map((certificate) => ({
+const certifications = CERTS.map((certificate) => ({
   ...certificate,
-  verificationUrl: `${CERTIFICATE_BASE_URL}${certificate.credentialId}`,
+  logo: logos[certificate.logo],
+  verificationUrl: `${CERT_BASE_URL}${certificate.credentialId}`,
 }));
-
-export const CERT_COUNT = certifications.length;
 
 function Certifications({ language = 'en' }: { language?: 'en' | 'fr' }) {
   const isFrench = language === 'fr';
 
   return (
-    <section className="certifications-section" id="certifications">
+    <section className="certifications-section">
       <div className="certifications-header">
         <div>
           <p className="section-eyebrow">{isFrench ? 'Certifications' : 'Certifications'}</p>
@@ -95,7 +26,11 @@ function Certifications({ language = 'en' }: { language?: 'en' | 'fr' }) {
             <div className="certification-card-header">
               <div className="certification-logo-wrapper">
                 <img
-                  src={certificate.logo}
+                  src={certificate.logo.src}
+                  width={certificate.logo.width}
+                  height={certificate.logo.height}
+                  loading="lazy"
+                  decoding="async"
                   alt={`${certificate.issuer} logo`}
                   className="certification-logo-img"
                 />

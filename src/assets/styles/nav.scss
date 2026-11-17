@@ -1,0 +1,87 @@
+/* ============================================================
+   Navigation — plain elements (replaces MUI AppBar / Toolbar / Button / Drawer).
+   Metrics deliberately mirror the former MUI components so the bar looks identical.
+   Breakpoints: >=1200 full link row · <1200 brand + hamburger drawer · <600 no "Contact" button
+   ============================================================ */
+.navbar-fixed-top {
+  position: fixed; z-index: 1100; left: 0; right: 0;
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  display: flex; flex-direction: column; flex-shrink: 0; box-sizing: border-box;
+  margin: 0 max(14px, calc((100% - 1240px) / 2));
+  border-radius: 14px; background: transparent; box-shadow: none;
+  transition: background .3s, backdrop-filter .3s;
+}
+.navbar-fixed-top.scrolled {
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid var(--line);
+}
+
+.navigation-bar {
+  position: relative; display: flex; align-items: center; justify-content: space-between;
+  min-height: 56px; padding: 0 16px; background: transparent;
+}
+@media (min-width: 600px) { .navigation-bar { padding: 0 24px; } }
+
+/* desktop link row + buttons */
+.nav-links { display: none; flex-grow: 1; }
+.nav-spacer { flex-grow: 1; }
+@media (min-width: 1200px) { .nav-links { display: block; } .nav-spacer { display: none; } }
+
+.navigation-bar .nav-link, .navigation-bar .nav-btn {
+  display: inline-flex; align-items: center; justify-content: center; position: relative; box-sizing: border-box;
+  margin: 0; padding: 6px 10px; min-width: 64px; border: 0; outline: 0; border-radius: 8px;
+  background: transparent; color: var(--text); cursor: pointer; user-select: none; vertical-align: middle; text-decoration: none; appearance: none;
+  font-family: var(--font-body); font-weight: 400; font-size: .95rem; line-height: 1.75; letter-spacing: 0.02857em; text-transform: none;
+  transition: background-color .25s cubic-bezier(.4, 0, .2, 1);
+}
+.navigation-bar .nav-link:hover, .navigation-bar .nav-btn:hover { background: var(--line); }
+.navigation-bar .nav-link:focus-visible, .navigation-bar .nav-btn:focus-visible, .nav-menu-btn:focus-visible, .nav-icon-btn:focus-visible, .nav-brand:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+
+/* active-section underline */
+.navigation-bar .nav-link::after { content: ''; position: absolute; left: 50%; bottom: 4px; width: 0; height: 3px; border-radius: 2px; background: var(--yellow); transform: translateX(-50%); transition: width .3s ease; }
+.navigation-bar .nav-link.active::after { width: 18px; }
+
+.navigation-bar .lang-btn { min-width: auto; border: 1px solid var(--line); font-weight: 800; letter-spacing: .08em; font-size: .8rem; margin: 0; }
+.navigation-bar .nav-cta { background: var(--yellow); color: var(--on-accent); font-weight: 800; padding: 8px 18px; transition: transform .2s; }
+.navigation-bar .nav-cta:hover { background: var(--yellow); transform: translateY(-2px); }
+@media (max-width: 599.95px) { .navigation-bar .nav-cta { display: none; } }
+
+/* compact layouts: hamburger, brand, theme button */
+.nav-menu-btn { display: inline-flex; align-items: center; justify-content: center; margin: 0 8px 0 -12px; padding: 6px 10px; border: 0; border-radius: 50%; background: transparent; color: var(--text); cursor: pointer; font-size: 1.1rem; }
+.nav-brand { display: inline-flex; align-items: center; gap: 10px; background: none; border: 0; cursor: pointer; padding: 6px 10px; font-size: 1.1rem; font-family: var(--font-body); }
+.nav-brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--yellow); color: var(--on-accent); font-weight: 800; font-size: .8rem; letter-spacing: -.02em; }
+.nav-brand-name { font-weight: 800; font-size: 1rem; color: var(--text); letter-spacing: -.02em; }
+.nav-icon-btn { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: transparent; color: var(--text); font-size: 1.1rem; cursor: pointer; margin-right: 8px; padding: 6px 10px; font-family: var(--font-body); display: inline-grid; place-items: center; }
+.nav-icon-btn:active { background: var(--yellow); color: var(--on-accent); }
+@media (min-width: 1200px) { .nav-menu-btn, .nav-brand, .nav-theme-btn { display: none; } }
+@media (max-width: 380px) { .nav-brand-name { display: none; } }
+
+/* ---------- Mobile drawer (custom: focus-trapped, Escape closes, locks page scroll) ---------- */
+.nav-drawer-root { position: fixed; inset: 0; z-index: 1200; visibility: hidden; transition: visibility 0s linear .25s; }
+.nav-drawer-root.open { visibility: visible; transition-delay: 0s; }
+@media (min-width: 1200px) { .nav-drawer-root { display: none; } }
+.nav-drawer-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, .5); opacity: 0; transition: opacity .25s ease; }
+.nav-drawer-root.open .nav-drawer-backdrop { opacity: 1; }
+.nav-drawer {
+  position: absolute; top: 0; left: 0; bottom: 0; width: min(86vw, 360px); display: flex; flex-direction: column; overflow-y: auto; outline: 0;
+  transform: translateX(-100%); transition: transform .25s cubic-bezier(.4, 0, .2, 1);
+  background-color: var(--bg); color: var(--text); border-right: 1px solid var(--line); box-shadow: 0 0 60px rgba(0, 0, 0, .5);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 40px 40px;
+}
+.nav-drawer-root.open .nav-drawer { transform: none; }
+html.nav-locked { overflow: hidden; }
+.nav-drawer-inner { display: flex; flex-direction: column; height: 100%; padding-bottom: env(safe-area-inset-bottom, 0px); }
+.nav-drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; }
+.nav-drawer-head .nav-icon-btn { margin: 0; }
+.nav-drawer-list { list-style: none; margin: 0; padding: 8px 0; flex: 1; overflow: auto; }
+.nav-drawer-item { display: flex; align-items: center; gap: 18px; width: 100%; padding: 16px 24px; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; cursor: pointer; position: relative; color: var(--text); font-family: var(--font-body); font-size: 1.45rem; letter-spacing: -.03em; line-height: 1.5; }
+.nav-drawer-item:hover { background: color-mix(in srgb, var(--text) 6%, transparent); }
+.nav-drawer-item:focus-visible { outline: 2px solid var(--yellow); outline-offset: -2px; }
+.nav-drawer-item.on::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 4px; border-radius: 0 3px 3px 0; background: var(--yellow); }
+.nav-drawer-item.on .nav-drawer-label { font-weight: 800; }
+.nav-drawer-n { font-size: .68rem; letter-spacing: .14em; color: var(--muted); font-weight: 800; min-width: 22px; }
+.nav-drawer-foot { display: flex; gap: 10px; padding: 18px 20px 22px; }
+.nav-drawer-chip { flex: 1; padding: 13px 12px; border-radius: 10px; border: 1px solid var(--line); background: transparent; color: var(--text); font-family: var(--font-body); font-size: .85rem; font-weight: 800; cursor: pointer; }
+.nav-drawer-chip:active { background: var(--yellow); color: var(--on-accent); }
+.nav-brand-mark.in-drawer { margin: 0; }

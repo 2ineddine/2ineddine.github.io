@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import laborCode from '../assets/images/labor-code.png';
-import sourceSeparation from '../assets/images/sources-separation.jpeg';
-import txttospeech from '../assets/images/txttospeech.jpg';
-import detection from '../assets/images/detection.jpeg';
-import yolo26 from '../assets/images/yolo26.jpg';
-import jungle from '../assets/images/jungle.jpeg';
-import nvidia from '../assets/images/nvidia.jpeg';
+import { covers } from '../assets/images';
 import { isTouch } from '../data/site';
 import '../assets/styles/Project.scss';
 
@@ -47,7 +41,7 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
     const isNvidiaOpen = activeProject === "nvidia";
 
     return(
-    <div className="projects-container" id="projects">
+    <div className="projects-container">
         <h1>{isFrench ? 'Projets personnels' : 'Personal Projects'}</h1>
         <div className="pj-filters" role="tablist" aria-label={isFrench ? 'Filtrer les projets' : 'Filter projects'}>
             {filters.map(([key, label]) => (
@@ -69,10 +63,13 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                         <img
                             loading="lazy"
                             decoding="async"
-                            src={nvidia}
+                            src={covers.nvidia.src}
+                            srcSet={covers.nvidia.srcSet}
+                            sizes="(max-width: 900px) min(84vw, 440px), 563px"
+                            width={covers.nvidia.width}
+                            height={covers.nvidia.height}
                             className="zoom project-featured-image"
                             alt="NVIDIA Nemotron fine-tuning project preview"
-                            width="100%"
                         />
                         <span className="project-image-hint">{hint}</span>
                     </button>
@@ -120,10 +117,13 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                         <img
                             loading="lazy"
                             decoding="async"
-                            src={detection}
+                            src={covers.motion.src}
+                            srcSet={covers.motion.srcSet}
+                            sizes="(max-width: 900px) min(84vw, 440px), 563px"
+                            width={covers.motion.width}
+                            height={covers.motion.height}
                             className="zoom project-featured-image"
                             alt="Motion Detection Estimation and Tracking on Images preview"
-                            width="100%"
                         />
                         <span className="project-image-hint">{hint}</span>
                     </button>
@@ -169,10 +169,13 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                         <img
                             loading="lazy"
                             decoding="async"
-                            src={yolo26}
+                            src={covers.yolo26.src}
+                            srcSet={covers.yolo26.srcSet}
+                            sizes="(max-width: 900px) min(84vw, 440px), 563px"
+                            width={covers.yolo26.width}
+                            height={covers.yolo26.height}
                             className="zoom project-featured-image"
                             alt="YOLO26 pothole and crack detection preview"
-                            width="100%"
                         />
                         <span className="project-image-hint">{hint}</span>
                     </button>
@@ -218,10 +221,13 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                         <img
                             loading="lazy"
                             decoding="async"
-                            src={laborCode}
+                            src={covers.laborCode.src}
+                            srcSet={covers.laborCode.srcSet}
+                            sizes="(max-width: 900px) min(84vw, 440px), 563px"
+                            width={covers.laborCode.width}
+                            height={covers.laborCode.height}
                             className="zoom project-featured-image"
                             alt="Retrieval-Augmented Generation System for French Labor Code preview"
-                            width="100%"
                         />
                         <span className="project-image-hint">{hint}</span>
                     </button>
@@ -275,10 +281,13 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                         <img
                             loading="lazy"
                             decoding="async"
-                            src={sourceSeparation}
+                            src={covers.sourceSeparation.src}
+                            srcSet={covers.sourceSeparation.srcSet}
+                            sizes="(max-width: 900px) min(84vw, 440px), 563px"
+                            width={covers.sourceSeparation.width}
+                            height={covers.sourceSeparation.height}
                             className="zoom project-featured-image"
                             alt="Singing voice separation with Deep U-Net preview"
-                            width="100%"
                         />
                         <span className="project-image-hint">{hint}</span>
                     </button>
@@ -324,10 +333,13 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                         <img
                             loading="lazy"
                             decoding="async"
-                            src={txttospeech}
+                            src={covers.matcha.src}
+                            srcSet={covers.matcha.srcSet}
+                            sizes="(max-width: 900px) min(84vw, 440px), 563px"
+                            width={covers.matcha.width}
+                            height={covers.matcha.height}
                             className="zoom project-featured-image"
                             alt="Matcha-TTS Implementation Analysis preview"
-                            width="100%"
                         />
                         <span className="project-image-hint">{hint}</span>
                     </button>
@@ -373,10 +385,13 @@ function Project({ language = 'en' }: { language?: 'en' | 'fr' }) {
                         <img
                             loading="lazy"
                             decoding="async"
-                            src={jungle}
+                            src={covers.jungle.src}
+                            srcSet={covers.jungle.srcSet}
+                            sizes="(max-width: 900px) min(84vw, 440px), 563px"
+                            width={covers.jungle.width}
+                            height={covers.jungle.height}
                             className="zoom project-featured-image"
                             alt="Forest acoustic learning preview"
-                            width="100%"
                         />
                         <span className="project-image-hint">{hint}</span>
                     </button>

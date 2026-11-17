@@ -1,16 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDocker } from "@fortawesome/free-brands-svg-icons";
-import { faBrain, faRobot, faWaveSquare, faEye } from "@fortawesome/free-solid-svg-icons";
+import { FaIcon } from "./icons";
+import { FaDef, faBrain, faDocker, faEye, faRobot, faWaveSquare } from "./iconData";
 import NeuralGraph, { GLink, GNode } from "./NeuralGraph";
-import { isTouch } from "../data/site";
+import { SHARED, STACKS, slug } from "../data/skills";
+import { isTouch, scrollToId } from "../data/site";
 import "../assets/styles/Expertise.scss";
 
 type L2 = { en: string; fr: string };
 
-export const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-
-const HUBS: { id: string; icon: any; color: string; short: L2; title: L2; desc: L2; stack: string[] }[] = [
+const HUBS: { id: string; icon: FaDef; color: string; short: L2; title: L2; desc: L2; stack: string[] }[] = [
   {
     id: "dl", icon: faBrain, color: "var(--s1)",
     short: { en: "Deep Learning", fr: "Deep Learning" },
@@ -19,7 +17,7 @@ const HUBS: { id: string; icon: any; color: string; short: L2; title: L2; desc: 
       en: "I design, train, and optimize deep learning models, from convolutional and transformer architectures to modern generative models, emphasizing robust training pipelines, reproducibility, and reliable evaluation.",
       fr: "Je conçois, entraîne et optimise des modèles d'apprentissage profond, des architectures convolutives et transformeurs aux modèles génératifs modernes, avec un fort accent sur les pipelines d'entraînement robustes, la reproductibilité et l'évaluation fiable.",
     },
-    stack: ["PyTorch", "TensorFlow/Keras", "scikit-learn", "CNNs", "Transformers", "GANs", "WGAN / WGAN-GP", "Diffusion Models", "Flow Matching"],
+    stack: STACKS.dl,
   },
   {
     id: "cv", icon: faEye, color: "var(--s2)",
@@ -29,7 +27,7 @@ const HUBS: { id: string; icon: any; color: string; short: L2; title: L2; desc: 
       en: "I develop vision systems for detection, segmentation, tracking, and multimodal perception, combining deep learning with sensor fusion techniques for robust real-time scene understanding.",
       fr: "Je développe des systèmes de vision pour la détection, la segmentation, le suivi et la perception multimodale, en combinant apprentissage profond et fusion de capteurs pour une compréhension robuste de la scène en temps réel.",
     },
-    stack: ["OpenCV", "YOLOv8", "Object Detection", "Instance Segmentation", "Optical Flow", "Multi-Object Tracking", "Kalman & Particle Filters", "Camera-LiDAR Fusion", "DINO / ViT"],
+    stack: STACKS.cv,
   },
   {
     id: "audio", icon: faWaveSquare, color: "var(--s3)",
@@ -39,7 +37,7 @@ const HUBS: { id: string; icon: any; color: string; short: L2; title: L2; desc: 
       en: "I build deep learning solutions for speech and audio analysis, including source separation, speech synthesis, and signal processing for intelligent audio applications.",
       fr: "Je conçois des solutions d'apprentissage profond pour l'analyse de la parole et de l'audio, y compris la séparation de sources, la synthèse vocale et le traitement du signal pour des applications audio intelligentes.",
     },
-    stack: ["Signal Processing", "Audio Source Separation", "Speech Synthesis (TTS)", "Ambisonic Audio"],
+    stack: STACKS.audio,
   },
   {
     id: "mlops", icon: faDocker, color: "var(--s4)",
@@ -49,7 +47,7 @@ const HUBS: { id: string; icon: any; color: string; short: L2; title: L2; desc: 
       en: "I deploy and scale machine learning systems using containerized environments, automated CI/CD pipelines, experiment tracking, and cloud-native infrastructure for production-ready AI.",
       fr: "Je déploie et mets à l'échelle les systèmes d'apprentissage automatique à l'aide d'environnements conteneurisés, de pipelines CI/CD automatisés, de suivi d'expériences et d'infrastructures cloud pour des IA prêtes à la production.",
     },
-    stack: ["Docker", "Kubernetes", "GitLab CI/CD", "PostgreSQL", "Experiment Tracking", "Model Versioning", "Model Monitoring", "Google Cloud Platform", "Vertex AI", "Databricks", "Linux"],
+    stack: STACKS.mlops,
   },
   {
     id: "llm", icon: faRobot, color: "var(--s5)",
@@ -59,27 +57,9 @@ const HUBS: { id: string; icon: any; color: string; short: L2; title: L2; desc: 
       en: "I build retrieval-augmented generation pipelines and intelligent agent systems by combining large language models, vector search, and orchestration frameworks to deliver reliable, domain-specific AI applications.",
       fr: "Je construis des pipelines de génération augmentée par récupération et des systèmes d'agents intelligents en combinant grands modèles de langage, recherche vectorielle et frameworks d'orchestration pour des applications IA fiables et spécifiques au domaine.",
     },
-    stack: ["LLMs", "LangChain", "LangGraph", "RAG", "Hugging Face", "FAISS", "Embedding Retrieval", "Vector Search", "Agentic AI"],
+    stack: STACKS.llm,
   },
 ];
-
-// Tools that genuinely span several domains -> extra links make the graph a real network.
-const SHARED: Record<string, string[]> = {
-  pytorch: ["cv", "audio"],
-  transformers: ["llm"],
-  "dino-vit": ["dl"],
-  "experiment-tracking": ["dl"],
-};
-
-// Flat index of every hub/tool, used by the tech marquee.
-export const SKILL_INDEX: { id: string; label: string; hub: boolean }[] = (() => {
-  const seen = new Set<string>();
-  const out: { id: string; label: string; hub: boolean }[] = [];
-  HUBS.forEach((h) => out.push({ id: h.id, label: h.short.en, hub: true }));
-  HUBS.forEach((h) => h.stack.forEach((l) => { const id = slug(l); if (!seen.has(id)) { seen.add(id); out.push({ id, label: l, hub: false }); } }));
-  return out;
-})();
-export const TOOL_COUNT = SKILL_INDEX.filter((s) => !s.hub).length;
 
 function Expertise({ language = "en" }: { language?: "en" | "fr" }) {
   const fr = language === "fr";
@@ -108,7 +88,7 @@ function Expertise({ language = "en" }: { language?: "en" | "fr" }) {
   const nodes: GNode[] = useMemo(() => {
     const color = Object.fromEntries(HUBS.map((h) => [h.id, h.color]));
     return [
-      ...HUBS.map<GNode>((h) => ({ id: h.id, label: h.short[lang], kind: "hub", color: h.color, icon: <FontAwesomeIcon icon={h.icon} /> })),
+      ...HUBS.map<GNode>((h) => ({ id: h.id, label: h.short[lang], kind: "hub", color: h.color, icon: <FaIcon icon={h.icon} /> })),
       ...Object.keys(leafLabel).map<GNode>((id) => ({ id, label: leafLabel[id], kind: "leaf", color: color[leafHubs[id][0]] })),
     ];
   }, [lang, leafLabel, leafHubs]);
@@ -127,7 +107,7 @@ function Expertise({ language = "en" }: { language?: "en" | "fr" }) {
       const id = (e as CustomEvent<{ id: string }>).detail?.id;
       if (!id || (!leafLabel[id] && !HUBS.some((h) => h.id === id))) return;
       select(id);
-      document.getElementById("expertise")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      scrollToId("expertise");
     };
     window.addEventListener("skill-focus", onFocus);
     return () => window.removeEventListener("skill-focus", onFocus);
@@ -137,7 +117,7 @@ function Expertise({ language = "en" }: { language?: "en" | "fr" }) {
   const also = sel.leaf ? leafHubs[sel.leaf].filter((h) => h !== sel.hub).map((h) => HUBS.find((x) => x.id === h)!.short[lang]) : [];
 
   return (
-    <div className="container" id="expertise">
+    <div className="container">
       <div className="skills-container">
         <h1>{fr ? "Carte des compétences" : "Competency Map"}</h1>
         <p className="skills-lead">
@@ -161,7 +141,7 @@ function Expertise({ language = "en" }: { language?: "en" | "fr" }) {
           <aside className="gx-panel" style={{ ["--pc" as any]: hub.color }} aria-live="polite">
             <span className="gx-kicker">{fr ? "Domaine" : "Domain"}</span>
             <div className="gx-title">
-              <span className="gx-ico"><FontAwesomeIcon icon={hub.icon} /></span>
+              <span className="gx-ico"><FaIcon icon={hub.icon} /></span>
               <h3>{hub.title[lang]}</h3>
             </div>
             <p>{hub.desc[lang]}</p>

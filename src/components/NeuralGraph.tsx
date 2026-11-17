@@ -255,7 +255,12 @@ export default function NeuralGraph({
     resize();
     if (reduced) { for (let i = 0; i < 320; i++) step(i * 16); draw(); }
 
-    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) kick(); }, { threshold: 0.05 });
+    // Off-screen graphs stop animating AND leave the compositor (display:none): a hidden canvas is not re-composited on every frame.
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      cv.style.display = visible ? "" : "none";
+      if (visible) { resize(); kick(); }
+    }, { threshold: 0, rootMargin: "120px 0px" });
     io.observe(wrapEl);
     const onVis = () => kick();
     document.addEventListener("visibilitychange", onVis);

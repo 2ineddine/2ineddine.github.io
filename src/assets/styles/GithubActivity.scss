@@ -1,3 +1,6 @@
+.gh-card.is-loading { min-height: 640px; } /* reserve the loaded height so data arriving never shifts the page */
+@media (max-width: 900px) { .gh-card.is-loading { min-height: 620px; } }
+@media (max-width: 760px) { .gh-card.is-loading { min-height: 810px; } }
 .gh-card { position: relative; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); padding: 26px 28px 24px; }
 .gh-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
 .gh-user { font-weight: 800; font-size: .95rem; letter-spacing: .02em; }
@@ -20,8 +23,10 @@
 .gh-grid .gh-cell { width: 100%; height: auto; aspect-ratio: 1 / 1; border-radius: 4px; }
 
 .gh-cell { width: var(--size, 13px); height: var(--size, 13px); border-radius: 3px; padding: 0; border: 0; cursor: pointer; display: block; background: color-mix(in srgb, var(--text) 8%, transparent); transition: transform .15s ease, box-shadow .15s ease; }
-.gh-grid .gh-cell { animation: gh-pop .5s cubic-bezier(.2, .8, .2, 1) backwards; }
-@keyframes gh-pop { from { opacity: 0; transform: scale(.3); } }
+/* one cheap reveal for the whole grid (instead of 369 separately animated cells) */
+.gh-grid { clip-path: inset(-14px 100% -14px -14px); }
+.gh-map.in .gh-grid { animation: gh-wipe 1.1s cubic-bezier(.2, .7, .2, 1) forwards; }
+@keyframes gh-wipe { to { clip-path: inset(-14px); } }
 .gh-cell.l1 { background: color-mix(in srgb, var(--yellow) 30%, transparent); }
 .gh-cell.l2 { background: color-mix(in srgb, var(--yellow) 55%, transparent); }
 .gh-cell.l3 { background: color-mix(in srgb, var(--yellow) 80%, transparent); }
@@ -52,4 +57,4 @@
   .gh-bars { gap: 2px; }
   .gh-bar b { font-size: .5rem; }
 }
-@media (prefers-reduced-motion: reduce) { .gh-grid .gh-cell { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .gh-grid { clip-path: none; animation: none !important; } }

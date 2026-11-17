@@ -1,10 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBriefcase, faGraduationCap } from "@fortawesome/free-solid-svg-icons";
-import orangeLogo from "../assets/images/orange.png";
-import sorbonneLogo from "../assets/images/sorbonne.png";
-import lyon1Logo from "../assets/images/lyon1.jpg";
-import { isTouch } from "../data/site";
+import { FaIcon } from "./icons";
+import { faBriefcase, faGraduationCap } from "./iconData";
+import { logos, Logo } from "../assets/images";
+import { focusSkill, isTouch } from "../data/site";
 import "../assets/styles/Journey.scss";
 
 type L2 = { en: string; fr: string };
@@ -12,14 +10,14 @@ type Tag = { label: L2; skill?: string }; // skill = node id in the competency m
 
 type Item = {
   id: string; kind: "work" | "edu"; start: number; end: number | "now";
-  title: L2; short: L2; org: string; logo: string; place: string; date: L2; tags?: Tag[];
+  title: L2; short: L2; org: string; logo: Logo; place: string; date: L2; tags?: Tag[];
 };
 
 const ITEMS: Item[] = [
   {
     id: "orange", kind: "work", start: 2026.08, end: "now",
     title: { en: "AI Engineer Intern", fr: "Stagiaire ingénieur IA" }, short: { en: "Orange", fr: "Orange" },
-    org: "Orange", logo: orangeLogo, place: "Rennes, France",
+    org: "Orange", logo: logos.orange, place: "Rennes, France",
     date: { en: "Feb. 2026 – Present", fr: "Fév. 2026 – Aujourd'hui" },
     tags: [
       { label: { en: "Deep Learning", fr: "Deep Learning" }, skill: "dl" },
@@ -32,7 +30,7 @@ const ITEMS: Item[] = [
   {
     id: "sorbonne-intern", kind: "work", start: 2025.33, end: 2025.75,
     title: { en: "Data Scientist Intern", fr: "Stagiaire data scientist" }, short: { en: "Sorbonne", fr: "Sorbonne" },
-    org: "Sorbonne Université", logo: sorbonneLogo, place: "Paris, France",
+    org: "Sorbonne Université", logo: logos.sorbonne, place: "Paris, France",
     date: { en: "May 2025 – Sept. 2025", fr: "Mai 2025 – Sept. 2025" },
     tags: [
       { label: { en: "Sensor Fusion", fr: "Fusion de capteurs" }, skill: "camera-lidar-fusion" },
@@ -45,14 +43,14 @@ const ITEMS: Item[] = [
     id: "master", kind: "edu", start: 2024.0, end: 2026.5,
     title: { en: "Master’s – Intelligent Systems Engineering", fr: "Master – Ingénierie des systèmes intelligents" },
     short: { en: "Master · Sorbonne", fr: "Master · Sorbonne" },
-    org: "Sorbonne University", logo: sorbonneLogo, place: "Paris, France",
+    org: "Sorbonne University", logo: logos.sorbonne, place: "Paris, France",
     date: { en: "2024 – 2026", fr: "2024 – 2026" },
   },
   {
     id: "bachelor", kind: "edu", start: 2021.0, end: 2024.0,
     title: { en: "Bachelor’s – Electronics, Electrical Energy and Automation", fr: "Licence – Électronique, énergie électrique et automatisation" },
     short: { en: "Bachelor · Lyon 1", fr: "Licence · Lyon 1" },
-    org: "Claude Bernard Lyon 1 University", logo: lyon1Logo, place: "Villeurbanne, France",
+    org: "Claude Bernard Lyon 1 University", logo: logos.lyon1, place: "Villeurbanne, France",
     date: { en: "2021 – 2024", fr: "2021 – 2024" },
   },
 ];
@@ -76,16 +74,19 @@ function Timeline({ language = "en" }: { language?: "en" | "fr" }) {
   // On narrow screens start the rail scrolled to "now"
   useEffect(() => { const r = railRef.current; if (r) r.scrollLeft = r.scrollWidth; }, []);
 
-  // Scroll-linked spine + which card is "current"
+  // Scroll-linked spine + which card is "current". Work is throttled to one update per frame and skipped while the timeline is off-screen.
   useEffect(() => {
     const el = listRef.current;
     if (!el) return;
-    const onScroll = () => {
+    let raf = 0, visible = false;
+    const update = () => {
+      raf = 0;
       const r = el.getBoundingClientRect();
-      const p = Math.max(0, Math.min(1, (window.innerHeight * 0.55 - r.top) / r.height));
-      el.style.setProperty("--p", String(p));
+      el.style.setProperty("--p", String(Math.max(0, Math.min(1, (window.innerHeight * 0.55 - r.top) / r.height))));
     };
-    onScroll();
+    const onScroll = () => { if (visible && !raf) raf = requestAnimationFrame(update); };
+    const vis = new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) onScroll(); }, { rootMargin: "300px 0px" });
+    vis.observe(el);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     const io = new IntersectionObserver(
@@ -93,7 +94,7 @@ function Timeline({ language = "en" }: { language?: "en" | "fr" }) {
       { rootMargin: "-45% 0px -45% 0px" }
     );
     Object.values(cardRefs.current).forEach((c) => c && io.observe(c));
-    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); io.disconnect(); };
+    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); cancelAnimationFrame(raf); vis.disconnect(); io.disconnect(); };
   }, [filter]);
 
   const goto = (id: string) => {
@@ -101,12 +102,11 @@ function Timeline({ language = "en" }: { language?: "en" | "fr" }) {
     setActive(id);
     setTimeout(() => cardRefs.current[id]?.scrollIntoView({ behavior: "smooth", block: "center" }), 30);
   };
-  const focusSkill = (id?: string) => id && window.dispatchEvent(new CustomEvent("skill-focus", { detail: { id } }));
 
   const lane = (kind: "work" | "edu") => ITEMS.filter((i) => i.kind === kind);
 
   return (
-    <div id="history" className="history-section">
+    <div className="history-section">
       <h1>{fr ? "Parcours" : "Journey"}</h1>
       <p className="skills-lead">
         {fr
@@ -163,14 +163,14 @@ function Timeline({ language = "en" }: { language?: "en" | "fr" }) {
             ref={(el) => { cardRefs.current[it.id] = el; }}
             className={`jr-card ${it.kind}${active === it.id ? " on" : ""}`}
           >
-            <span className="jr-marker"><FontAwesomeIcon icon={it.kind === "work" ? faBriefcase : faGraduationCap} /></span>
+            <span className="jr-marker"><FaIcon icon={it.kind === "work" ? faBriefcase : faGraduationCap} /></span>
             <div className="jr-head">
               <span className="gx-kicker">{it.kind === "work" ? (fr ? "Expérience" : "Work") : fr ? "Formation" : "Education"}</span>
               <span className="jr-date">{it.date[lang]}</span>
             </div>
             <h3>{it.title[lang]}</h3>
             <div className="jr-org">
-              <img src={it.logo} alt="" />
+              <img src={it.logo.src} width={it.logo.width} height={it.logo.height} alt="" loading="lazy" decoding="async" />
               <strong>{it.org}</strong>
               <span>· {it.place}</span>
             </div>
@@ -180,7 +180,7 @@ function Timeline({ language = "en" }: { language?: "en" | "fr" }) {
                   <button
                     key={t.label.en}
                     className={`gx-chip${t.skill ? "" : " static"}`}
-                    onClick={() => focusSkill(t.skill)}
+                    onClick={() => t.skill && focusSkill(t.skill)}
                     disabled={!t.skill}
                     title={t.skill ? (fr ? "Voir sur la carte des compétences" : "Show on the competency map") : undefined}
                   >

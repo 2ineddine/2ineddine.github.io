@@ -1,16 +1,15 @@
 import React from "react";
-import { SKILL_INDEX } from "./Expertise";
-
-const PICK = ["pytorch", "opencv", "yolov8", "transformers", "diffusion-models", "rag", "langchain", "langgraph", "docker", "kubernetes", "vertex-ai", "databricks", "gitlab-ci-cd", "faiss", "hugging-face", "flow-matching"];
+import { MARQUEE_IDS, TOOL_LABEL } from "../data/skills";
+import { focusSkill } from "../data/site";
 
 /** Infinite tech ticker. Each item jumps to the competency map. */
 export default function Marquee({ language = "en" }: { language?: "en" | "fr" }) {
-  const items = PICK.map((id) => SKILL_INDEX.find((s) => s.id === id)).filter(Boolean) as { id: string; label: string }[];
+  const items = MARQUEE_IDS.filter((id) => TOOL_LABEL[id]).map((id) => ({ id, label: TOOL_LABEL[id] }));
   const row = (hidden: boolean) => (
     <ul className="mq-row" aria-hidden={hidden || undefined}>
       {items.map((s) => (
         <li key={s.id}>
-          <button tabIndex={hidden ? -1 : 0} onClick={() => window.dispatchEvent(new CustomEvent("skill-focus", { detail: { id: s.id } }))}>
+          <button tabIndex={hidden ? -1 : 0} onClick={() => focusSkill(s.id)}>
             <i />{s.label}
           </button>
         </li>
